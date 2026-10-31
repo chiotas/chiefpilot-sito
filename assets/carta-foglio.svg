@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" width="1600" height="1000" fill="none">
 <path d="M0 0V1000M100 0V1000M200 0V1000M300 0V1000M400 0V1000M500 0V1000M600 0V1000M700 0V1000M800 0V1000M900 0V1000M1000 0V1000M1100 0V1000M1200 0V1000M1300 0V1000M1400 0V1000M1500 0V1000M1600 0V1000M0 0H1600M0 100H1600M0 200H1600M0 300H1600M0 400H1600M0 500H1600M0 600H1600M0 700H1600M0 800H1600M0 900H1600M0 1000H1600" stroke="#162735" stroke-width="1"/>
-<path d="M420 205 Q 800 20 1180 190" stroke="#2D465C" stroke-width="1.6" stroke-dasharray="7 9" stroke-linecap="round"/>
-<path d="M700 1000 Q 1150 980 1200 600" stroke="#263C4F" stroke-width="1.6" stroke-dasharray="7 9" stroke-linecap="round"/>
-<circle cx="420" cy="205" r="3" fill="#36526A"/><circle cx="1200" cy="600" r="3" fill="#36526A"/>
-<circle cx="1180" cy="190" r="3" fill="#36526A"/><circle cx="1180" cy="190" r="11" stroke="#36526A" stroke-width="1.4"/>
+<!-- Una raggiera di rotte da un solo hub, come la carta delle rotte di una compagnia: si toccano solo nell'hub. -->
+<path d="M1150 110 Q 780 27 430 175" stroke="#263C4F" stroke-width="1.5" stroke-dasharray="6 9" stroke-linecap="round"/><path d="M1150 110 Q 715 169 395 470" stroke="#263C4F" stroke-width="1.5" stroke-dasharray="6 9" stroke-linecap="round"/><path d="M1150 110 Q 701 341 470 790" stroke="#263C4F" stroke-width="1.5" stroke-dasharray="6 9" stroke-linecap="round"/><path d="M1150 110 Q 760 468 650 985" stroke="#263C4F" stroke-width="1.5" stroke-dasharray="6 9" stroke-linecap="round"/><path d="M1150 110 Q 903 502 930 965" stroke="#263C4F" stroke-width="1.5" stroke-dasharray="6 9" stroke-linecap="round"/><path d="M1150 110 Q 1291 456 1205 820" stroke="#263C4F" stroke-width="1.5" stroke-dasharray="6 9" stroke-linecap="round"/>
+<circle cx="430" cy="175" r="3" fill="#36526A"/><circle cx="395" cy="470" r="3" fill="#36526A"/><circle cx="470" cy="790" r="3" fill="#36526A"/><circle cx="650" cy="985" r="3" fill="#36526A"/><circle cx="930" cy="965" r="3" fill="#36526A"/><circle cx="1205" cy="820" r="3" fill="#36526A"/>
+<circle cx="1150" cy="110" r="3.5" fill="#36526A"/><circle cx="1150" cy="110" r="12" stroke="#36526A" stroke-width="1.4"/>
 </svg>
