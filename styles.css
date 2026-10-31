@@ -631,7 +631,8 @@ strong { font-weight: 650; color: var(--ink-hi); }
 .tk-log th { padding: 0 8px 6px 0; border-bottom: 1.5px solid #30A46C; text-align: left; font-size: 9.5px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: #4D6A5A; }
 .tk-log td { padding: 5px 8px 4px 0; border-bottom: 1px solid rgba(48, 164, 108, .4); white-space: nowrap; font: 400 clamp(13px, 3.6cqi, 15px)/1.2 "Bradley Hand", "Noteworthy", "Segoe Print", cursive; color: #5B6670; }
 .tk-log .tk-today td { color: #23466B; }
-.tk-sig { display: block; width: 52px; height: 15px; }
+/* Le firme dell'istruttore: tre delle cinque dell'app (Signature.swift), a penna blu come nell'app. */
+.tk-sig { display: block; width: 54px; height: 16px; fill: #23466B; }
 .tk-club .tk-foot { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-top: 12px; font-size: 13px; font-weight: 600; color: #4D6A5A; }
 .tk-club .tk-take { font-size: 18px; font-weight: 750; color: #1F7A4A; font-variant-numeric: tabular-nums; }
 
