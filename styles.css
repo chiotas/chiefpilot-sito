@@ -881,7 +881,9 @@ strong { font-weight: 650; color: var(--ink-hi); }
   .levels li { display: grid; grid-template-columns: 44% 1fr; align-items: center; gap: 6px; padding: 6px 16px 6px 6px; }
   .levels p { padding: 0; font-size: 16px; line-height: 1.45; }
   .levels strong { font-size: 20px; }
-  .route-line { grid-template-columns: 1fr; gap: 24px; }
+  .route-line { grid-template-columns: 1fr; gap: 20px; }
+  .route-line p { padding: 0 0 0 26px; }
+  .route-line p::before { top: .55em; } /* il pallino accanto alla riga, non sopra */
   .platforms { display: grid; grid-template-columns: auto auto; justify-content: start; gap: 0 .45em; }
   .swatches { display: grid; grid-template-columns: repeat(7, minmax(0, 44px)); gap: 8px; }
   .swatches button { width: 100%; height: auto; aspect-ratio: 1; }
