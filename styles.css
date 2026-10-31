@@ -1,0 +1,879 @@
+/* Chief Pilot · la pagina.
+   Colori e caratteri vengono dall'app (Contrail/design-system/contrail/MASTER.md): la palette ardesia
+   di Francesco, gli accenti dell'avionica, SF Pro con le sue larghezze (Expanded per i titoli,
+   Condensed per il tabellone). Niente font scaricati: sui Mac e su iOS è il carattere dell'app. */
+
+:root {
+  color-scheme: dark;
+  --bg: #06141B;
+  --surface: #11212D;
+  --overlay: #253745;
+  --sunken: #040D12;
+  --ink: #CCD0CF;
+  --ink-hi: #E6E9E8;
+  --muted: #9BA8AB;
+  --soft: #B3BCBD;
+  --light: #CCD0CF;
+  --accent: #5AD8F5;
+  --title: #86C5E0;
+  --legend: #FFC547;
+  --green: #3DDC84;
+  --amber: #FFB224;
+  --magenta: #FF6FDB;
+  --gold: #E9C46A;
+  --paper: #EEEBE3;
+  --trail: #FFF4E2;
+  --trail-glow: #FFB866;
+  --livery: #4F7BFF;
+  --flap: #11212D;
+  --flap-top: #162733;
+  --flap-ink: #EEEBE3;
+  --ok: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2.5 6.4l2.3 2.3 4.7-5' fill='none' stroke='%2306141B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+
+  --f: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", "Segoe UI", Roboto, Arial, sans-serif;
+  --wide: 125%;
+
+  /* cinque misure */
+  --t1: clamp(40px, 6.2vw, 100px);
+  --t2: clamp(30px, 3.6vw, 56px);
+  --t3: clamp(21px, 1.9vw, 28px);
+  --t4: 18px;
+  --t5: 15px;
+
+  --m: clamp(16px, 3vw, 44px);
+  --r: 20px;
+  --key-r: 8px;
+  --gap-section: clamp(120px, 14vw, 200px);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; scroll-padding-top: 72px; scrollbar-color: var(--overlay) var(--bg); }
+input { caret-color: var(--accent); }
+.vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--f);
+  font-size: var(--t4);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+img, svg { display: block; max-width: 100%; }
+[hidden] { display: none !important; }
+body, main { overflow-x: clip; }
+h1, h2, h3, p, ol, ul, dl, dd, figure, blockquote { margin: 0; }
+ol, ul { padding: 0; list-style: none; }
+a { color: inherit; }
+h1, h2, .giant {
+  font-stretch: var(--wide);
+  font-weight: 650;
+  letter-spacing: -0.02em;
+  line-height: 1.02;
+  color: var(--ink-hi);
+}
+h2 { font-size: var(--t2); }
+h3 { font-size: var(--t3); font-weight: 650; line-height: 1.3; color: var(--ink-hi); }
+strong { font-weight: 650; color: var(--ink-hi); }
+::selection { background: var(--accent); color: var(--bg); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+
+.skip { position: absolute; left: -9999px; top: 8px; background: var(--ink-hi); color: var(--bg); padding: 10px 16px; z-index: 50; }
+.skip:focus { left: 8px; }
+
+.text-link { color: var(--accent); text-underline-offset: 4px; text-decoration-thickness: 1px; }
+.text-link:hover { color: var(--ink-hi); }
+.statement { font-size: var(--t3); line-height: 1.35; color: var(--ink-hi); max-width: 34ch; }
+
+/* MARK: Il tasto di bordo (MASTER §9.8): tasto scuro pieno, scritta nella tinta, la spia accesa */
+.key {
+  display: inline-flex; align-items: center; gap: 12px;
+  min-height: 52px; padding: 0 22px;
+  background: var(--overlay); color: var(--accent);
+  border: 0; border-radius: var(--key-r);
+  font: 600 17px/1 var(--f); text-decoration: none; cursor: pointer;
+  transition: background-color .18s ease, transform .12s ease;
+}
+.key:hover { background: #2E4456; }
+.key:active { transform: translateY(1px); background: #213140; }
+.lamp { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); flex: none; }
+
+/* MARK: L'invito «Tell me when it lands»: il tagliando di una carta d'imbarco (scelta di Francesco, 31/10).
+   Carta con una grana appena percettibile, intagli a semicerchio sulla linea di strappo (stesso raggio sopra e
+   sotto, --nr), il tagliando col suo aereo, la scritta da biglietto; al passaggio il tagliando si stacca. */
+.pass-key {
+  --nr: 6px; --h: 52px; --stub: var(--h); /* il tagliando è quadrato: l'aereo ha lo stesso margine su ogni lato */
+  display: inline-flex; align-items: stretch; height: var(--h); text-decoration: none; color: #06141B;
+  filter: drop-shadow(0 2px 3px rgba(2, 8, 11, .35));
+}
+.pass-key-stub, .pass-key-text { display: flex; align-items: center; }
+.pass-key-stub {
+  width: var(--stub); justify-content: center; border-radius: 7px 0 0 7px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .32 0 0 0 0 .27 0 0 0 0 .2 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E"), linear-gradient(170deg, #E6E0D2, #DCD5C5); color: #3F515F;
+  mask: radial-gradient(circle var(--nr) at 100% 0, #0000 calc(var(--nr) - .5px), #000 var(--nr)) top / 100% 51% no-repeat,
+        radial-gradient(circle var(--nr) at 100% 100%, #0000 calc(var(--nr) - .5px), #000 var(--nr)) bottom / 100% 51% no-repeat;
+  transform-origin: 100% 100%; transition: translate .45s cubic-bezier(.2, .8, .2, 1), rotate .45s cubic-bezier(.2, .8, .2, 1);
+}
+.pass-key-stub svg { width: 18px; height: 18px; fill: currentColor; }
+.pass-key-text {
+  padding: 0 22px 0 18px; border-radius: 0 7px 7px 0;
+  background:
+    repeating-linear-gradient(to bottom, #9BA8AB 0 3px, transparent 3px 6px) left center / 1.5px calc(100% - var(--nr) * 2 - 6px) no-repeat,
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .32 0 0 0 0 .27 0 0 0 0 .2 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E"), linear-gradient(170deg, #F3F0E8, #E9E5DA);
+  mask: radial-gradient(circle var(--nr) at 0 0, #0000 calc(var(--nr) - .5px), #000 var(--nr)) top / 100% 51% no-repeat,
+        radial-gradient(circle var(--nr) at 0 100%, #0000 calc(var(--nr) - .5px), #000 var(--nr)) bottom / 100% 51% no-repeat;
+  font: 750 14px/1 var(--f); font-stretch: 112%; letter-spacing: .1em; text-transform: uppercase; white-space: nowrap;
+}
+.pass-key:hover .pass-key-stub { translate: -3px 1px; rotate: -2.5deg; }
+.pass-key:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: 9px; }
+.pass-key-small { --nr: 4.5px; --h: 38px; }
+.pass-key-small .pass-key-stub svg { width: 14px; height: 14px; }
+.pass-key-small .pass-key-text { padding: 0 14px 0 12px; font-size: 11.5px; letter-spacing: .08em; }
+.hero-sheet .pass-key { margin-top: 36px; align-self: flex-start; }
+@media (prefers-reduced-motion: reduce) { .pass-key:hover .pass-key-stub { translate: none; rotate: none; } }
+.key-quiet { background: transparent; padding: 0; min-height: 44px; color: var(--accent); }
+.key-quiet:hover { background: transparent; color: var(--ink-hi); }
+
+/* MARK: La barra */
+.bar {
+  position: sticky; top: 0; z-index: 20;
+  display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 24px;
+  height: 64px; padding: 0 var(--m);
+  background: var(--bg);
+}
+.wordmark { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; }
+.wordmark span { font-stretch: 150%; font-weight: 650; font-size: 19px; letter-spacing: -0.01em; color: var(--ink-hi); }
+.bar-links { display: flex; justify-content: center; gap: 28px; }
+.bar-links a { text-decoration: none; font-size: var(--t5); color: var(--soft); transition: color .15s; }
+.bar-links a:hover { color: var(--ink-hi); }
+
+/* MARK: Le cornici del Mac, disegnate qui */
+.mac { margin: 0; }
+.mac-screen { position: relative; background: #050708; padding: 1.7% 1.7% 2%; border-radius: clamp(10px, 1.6vw, 22px) clamp(10px, 1.6vw, 22px) 0 0; }
+.mac-screen::before { content: ""; position: absolute; z-index: 1; top: 0; left: 50%; transform: translateX(-50%); width: 12%; height: max(7px, 2.2%); background: #050708; border-radius: 0 0 8px 8px; }
+.mac-screen img { width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; object-position: top; border-radius: 3px; background: #050708; }
+.mac-base {
+  position: relative; height: clamp(9px, 1.1vw, 16px); margin: 0 -5.5%;
+  background: #2E363D; border-radius: 3px 3px 50% 50% / 3px 3px 100% 100%;
+}
+.mac-base::before { content: ""; position: absolute; left: 43%; width: 14%; top: 0; height: 40%; background: #1C2329; border-radius: 0 0 10px 10px; }
+.mac figcaption { margin-top: 18px; font-size: var(--t5); color: var(--muted); }
+
+/* MARK: 1 · Apertura */
+.hero {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+  padding: 0 12px 12px;
+  height: calc(100svh - 64px); min-height: 640px; max-height: 1000px;
+}
+.hero-sheet {
+  background: var(--surface); border-radius: var(--r);
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 48px clamp(28px, 5vw, 80px) 12%;
+}
+.lockup { display: flex; align-items: center; gap: clamp(12px, 1.4vw, 22px); margin-bottom: clamp(28px, 3.4vw, 52px); }
+.lockup img { width: clamp(60px, 6.4vw, 104px); height: auto; }
+.lockup span { font-stretch: 150%; font-weight: 650; font-size: clamp(34px, 4.3vw, 70px); line-height: 1; letter-spacing: -0.015em; color: var(--ink-hi); }
+/* Nell'apertura il marchio c'è ma sta un passo indietro: il titolo è la cosa più grande del foglio. */
+.hero .lockup { gap: clamp(10px, 1vw, 14px); margin-bottom: clamp(24px, 2.6vw, 40px); }
+.hero .lockup img { width: clamp(40px, 3.3vw, 54px); }
+.hero .lockup span { font-size: clamp(21px, 1.9vw, 30px); letter-spacing: -0.01em; }
+.hero h1 { font-size: clamp(34px, 4.3vw, 66px); }
+.hero h1 .l { display: block; }
+.hero-line { margin-top: 28px; max-width: 40ch; color: var(--ink); }
+.hero-note { margin-top: 16px; font-size: var(--t5); color: var(--muted); }
+
+.hero-stage {
+  position: relative; overflow: hidden; border-radius: var(--r); background: var(--bg);
+  container-type: inline-size;
+}
+.chart { width: 100%; height: 100%; }
+.hero-stage .chart { position: absolute; inset: 0; }
+.hero-strip {
+  position: absolute; left: 0; right: 0; bottom: 0; height: 56px;
+  display: flex; justify-content: space-between; align-items: center; gap: 16px;
+  padding: 0 24px; background: var(--surface); font-size: var(--t5); color: var(--ink);
+}
+
+/* Le scie: anima avorio e alone al sodio (MASTER §9.4) */
+.scie path { fill: none; stroke: var(--trail); stroke-width: 3; stroke-linecap: round; }
+.scie-alone path { fill: none; stroke: var(--trail-glow); stroke-width: 14; stroke-linecap: round; opacity: .2; }
+/* L'apertura guarda la mappa un po' più da vicino del logbook (≈ 0,76 px per unità sul Mac contro ≈ 0,66): gli
+   spessori sono quelli del logbook × 0,86, così linea, alone, scali e base hanno sullo schermo la stessa misura. */
+.hero .scie path { stroke-width: 2.6; }
+.hero .scie-alone path { stroke-width: 12; }
+.hero .scali circle { r: 2.75; }
+.hero .hub { r: 7.7; stroke-width: 2.6; }
+.scali circle { fill: var(--trail); }
+.hub { fill: none; stroke: var(--livery); stroke-width: 3; }
+.js .chart:not(.drawn) :is(.scie, .scie-alone) path { stroke-dasharray: var(--len) var(--len); stroke-dashoffset: var(--len); }
+.js .chart:not(.drawn) .scali, .js .chart:not(.drawn) .hub { opacity: 0; }
+.chart.drawn :is(.scie, .scie-alone) path { stroke-dasharray: var(--len) var(--len); stroke-dashoffset: 0; transition: stroke-dashoffset var(--dur, .9s) cubic-bezier(.45, 0, .25, 1) var(--d, 0s); }
+.chart.drawn .scali, .chart.drawn .hub { transition: opacity .8s ease var(--end, 1.2s); }
+
+/* Il tabellone Solari (MASTER §9.1): palette in due metà, inchiostro avorio, legenda gialla */
+.board {
+  position: absolute; left: 50%; bottom: 84px; transform: translateX(-50%);
+  width: min(92cqi, 620px); --cw: calc((min(92cqi, 620px) - 56px) / 30);
+  background: var(--bg); border-radius: 14px; padding: calc(var(--cw) * 1.1);
+}
+/* DEPARTURES appartiene alle righe sotto: vicina a loro, lontana dal nome, nel grigio delle didascalie. */
+.board-head { margin: 0 0 calc(var(--cw) * .3); }
+.board-legend { font-stretch: 150%; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .14em; font-size: max(13px, calc(var(--cw) * .62)); }
+.flaps { display: inline-flex; gap: 2px; }
+.cell {
+  position: relative; width: var(--cw); height: calc(var(--cw) * 1.62);
+  background: var(--flap); border-radius: 3px; overflow: hidden;
+  display: grid; place-items: center;
+}
+.cell::before { content: ""; position: absolute; inset: 0 0 50% 0; background: var(--flap-top); transform-origin: bottom; }
+.cell::after { content: ""; position: absolute; left: 0; right: 0; top: calc(50% - .75px); height: 1.5px; background: #02080B; }
+.cell.blank::after { display: none; }
+.cell b {
+  position: relative; z-index: 1;
+  font: 700 calc(var(--cw) * 1.16)/1 var(--f); font-stretch: 75%; color: var(--flap-ink);
+  font-variant-numeric: tabular-nums; transform: translateY(-3%);
+}
+.urgent .cell b { color: var(--amber); }
+/* In cima CHIEF PILOT, sotto DEPARTURES. Le tessere crescono con --nk e stanno sempre nella larghezza del tabellone:
+   11 tessere × 2,4 cw + 10 spazi ≤ 30 cw − 2,2 cw sul Mac; sul telefono (24 cw) 2,05. */
+.board-name { --nk: 2.4; display: flex; gap: 3px; margin: 0 0 calc(var(--cw) * 1.6); }
+.board-name .cell { width: calc(var(--cw) * var(--nk)); height: calc(var(--cw) * var(--nk) * 1.53); }
+.board-name .cell b { font-size: calc(var(--cw) * var(--nk) * 1.1); color: var(--legend); }
+.board-rows li {
+  display: grid; grid-template-columns: auto auto 1fr auto; align-items: center;
+  column-gap: calc(var(--cw) * .7); row-gap: 4px; padding: calc(var(--cw) * .45) 0;
+}
+.status {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: calc(var(--cw) * 5.6); height: calc(var(--cw) * 1.62); padding: 0 6px;
+  background: var(--flap); border-radius: 3px;
+  font: 800 calc(var(--cw) * .7)/1 var(--f); font-stretch: 75%; letter-spacing: .04em; color: var(--flap-ink);
+}
+.status::before { content: ""; width: 7px; height: 7px; border-radius: 50%; margin-right: 7px; background: var(--green); }
+.st-urgent::before { background: var(--amber); }
+.st-accepted { color: var(--magenta); }
+.st-accepted::before { background: var(--magenta); }
+.row-note { grid-column: 3 / -1; font-size: 13px; color: var(--muted); line-height: 1.2; }
+
+/* MARK: 2 · L'idea */
+.intro {
+  display: grid; grid-template-columns: minmax(300px, 400px) 1fr; gap: clamp(40px, 6vw, 110px);
+  align-items: center;
+  padding: var(--gap-section) var(--m) 0 clamp(16px, 10vw, 180px);
+}
+.intro-text h2 { font-size: var(--t3); line-height: 1.25; margin-bottom: 26px; }
+.intro-text p + p { margin-top: 1.1em; }
+.intro-text p { color: var(--ink); }
+
+/* MARK: 3 · Il giro */
+.loop {
+  display: grid; grid-template-columns: 6fr 1fr 5fr;
+  padding: var(--gap-section) var(--m) 0;
+  background: url(assets/carta-giro.svg) left 12% top 0 / auto 100% no-repeat; /* alta quanto il giro, fino a «Land, and get paid» */
+}
+.loop-text { grid-column: 1; }
+.loop-intro { margin-top: 20px; max-width: 40ch; font-size: var(--t3); line-height: 1.35; color: var(--ink); }
+.loop-steps { position: relative; margin-top: 24px; }
+.loop-steps::before { content: ""; position: absolute; left: 11px; top: 26vh; bottom: 22vh; border-left: 2px dashed #2B4558; }
+.loop-steps li { min-height: 50vh; display: flex; flex-direction: column; justify-content: center; max-width: 34em; padding-left: 60px; }
+.loop-steps li:last-child { min-height: 50vh; }
+.loop-say { position: relative; font-size: clamp(28px, 3vw, 48px); font-stretch: 112%; font-weight: 650; line-height: 1.1; letter-spacing: -0.015em; color: var(--muted); margin-bottom: 16px; transition: color .3s; }
+.loop-say::before { content: ""; position: absolute; left: -58px; top: .32em; width: 20px; height: 20px; border-radius: 50%; background: var(--bg); box-sizing: border-box; border: 2px solid #4A5C6A; transition: background-color .3s, border-color .3s; }
+.loop-steps li.on .loop-say::before { background: var(--accent); border-color: var(--accent); }
+.loop-steps li p:not(.loop-say) { color: var(--muted); font-size: clamp(18px, 1.4vw, 22px); line-height: 1.5; transition: color .3s; }
+.loop-steps li.on .loop-say { color: var(--ink-hi); }
+.loop-steps li.on p:not(.loop-say) { color: var(--ink); }
+.loop-stage { grid-column: 3; position: sticky; top: 14vh; height: 72vh; display: grid; place-items: center; align-self: start; }
+
+.mission {
+  width: min(100%, 520px); background: var(--surface); border-radius: var(--r);
+  padding: 30px 32px 28px; font-size: var(--t5);
+}
+.mission-top { display: flex; justify-content: space-between; align-items: center; color: var(--muted); font-size: var(--t5); font-weight: 600; letter-spacing: .02em; }
+.chip { display: none; padding: 4px 10px; border-radius: 6px; background: var(--overlay); color: var(--green); font-size: var(--t5); font-weight: 700; }
+.chip-accepted { color: var(--accent); }
+.chip-flying { color: var(--magenta); }
+.chip-done { color: var(--green); }
+.mission-route { margin-top: 18px; font-size: 36px; font-stretch: 125%; font-weight: 650; color: var(--ink-hi); letter-spacing: -.01em; }
+.mission-names { display: flex; justify-content: space-between; color: var(--soft); font-size: var(--t5); margin-top: 4px; max-width: 15em; }
+.mission-panel { display: none; margin-top: 24px; min-height: 140px; }
+.mission[data-state="1"] [data-for="1"], .mission[data-state="2"] [data-for="2"],
+.mission[data-state="3"] [data-for="3"], .mission[data-state="4"] [data-for="4"] { display: block; }
+.mission[data-state] .chip[data-for] { display: none; }
+.mission[data-state="1"] .chip[data-for="1"], .mission[data-state="2"] .chip[data-for="2"],
+.mission[data-state="3"] .chip[data-for="3"], .mission[data-state="4"] .chip[data-for="4"] { display: inline-block; }
+.mission-panel.show { animation: rise .45s cubic-bezier(.2, .7, .2, 1); }
+.mission-load { color: var(--soft); font-size: var(--t5); margin-top: 10px; }
+.mission-pay { color: var(--ink-hi); margin: 6px 0 20px; }
+.key-fake { cursor: default; }
+.found { display: flex; gap: 12px; align-items: flex-start; color: var(--ink-hi); }
+.tick { display: grid; place-items: center; flex: none; width: 24px; height: 24px; border-radius: 50%; background: var(--green); color: var(--bg); font-weight: 800; font-size: 14px; }
+.strip { display: flex; justify-content: space-between; gap: 12px; background: var(--bg); border-radius: 10px; padding: 14px 16px; font-variant-numeric: tabular-nums; color: var(--ink-hi); font-size: var(--t5); position: relative; overflow: hidden; padding-left: 22px; }
+.strip::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 6px; background: var(--magenta); }
+.progress { margin-top: 14px; height: 6px; border-radius: 3px; background: var(--sunken); overflow: hidden; }
+.progress span { display: block; height: 100%; width: 58%; background: var(--magenta); }
+.mission[data-state="3"] .progress span { animation: grow 6s linear infinite alternate; }
+@keyframes grow { from { width: 46%; } to { width: 62%; } }
+.mission-take { display: flex; justify-content: space-between; align-items: baseline; }
+.mission-take span { color: var(--soft); font-weight: 600; }
+.mission-take strong { font-size: 36px; font-stretch: 125%; color: var(--green); font-variant-numeric: tabular-nums; }
+.drill { margin-top: 26px; padding-top: 20px; display: grid; gap: 10px; counter-reset: d; border-top: 1px solid var(--overlay); } /* taste-skill-ignore: dentro la missione (data-ui) */
+.drill li { display: flex; align-items: center; gap: 12px; font-size: var(--t5); color: var(--muted); }
+.drill li::before {
+  counter-increment: d; content: counter(d);
+  display: grid; place-items: center; width: 24px; height: 24px; flex: none; border-radius: 50%;
+  background: var(--sunken); color: var(--muted); font-size: 12px; font-weight: 700;
+}
+.mission[data-state="1"] .drill li:nth-child(1)::before,
+.mission[data-state="2"] .drill li:nth-child(-n+1)::before { content: ""; background: var(--green) var(--ok) center / 12px no-repeat; }
+.mission[data-state="2"] .drill li:nth-child(2)::before,
+.mission[data-state="3"] .drill li:nth-child(3)::before { background: var(--accent); color: var(--bg); }
+.mission[data-state="3"] .drill li:nth-child(-n+2)::before,
+.mission[data-state="4"] .drill li::before { content: ""; background: var(--green) var(--ok) center / 12px no-repeat; }
+.mission[data-state="1"] .drill li:nth-child(1)::before { content: counter(d); background: var(--accent); color: var(--bg); }
+.mission[data-state="1"] .drill li:nth-child(1),
+.mission[data-state="2"] .drill li:nth-child(-n+2),
+.mission[data-state="3"] .drill li:nth-child(-n+3),
+.mission[data-state="4"] .drill li { color: var(--ink); }
+
+/* MARK: 3 bis · Il volo */
+.flight { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(40px, 5vw, 80px); padding: clamp(64px, 7vw, 110px) calc(var(--m) + 2%) 0; }
+
+/* MARK: 4 · Le missioni, sul giallo della legenda */
+.missions {
+  margin-top: var(--gap-section);
+  background: var(--legend); color: #06141B;
+  padding: clamp(72px, 9vw, 140px) var(--m) clamp(72px, 9vw, 140px);
+}
+.missions ::selection { background: #06141B; color: var(--legend); }
+.missions-head { font-size: var(--t1); font-weight: 800; color: #06141B; line-height: .98; margin-bottom: clamp(64px, 7vw, 120px); }
+.missions-blocks { display: grid; gap: clamp(80px, 9vw, 150px); }
+/* Ogni blocco: il ritaglio da una parte, il testo dall'altra, alternati. Colonne nell'HTML (--crop, --text). */
+.mblock { display: grid; grid-template-columns: repeat(12, 1fr); column-gap: 24px; align-items: center; }
+.mblock .crop { grid-column: var(--crop); grid-row: 1; }
+.mblock .mtext { grid-column: var(--text); grid-row: 1; }
+.mblock h3 { color: #06141B; font-size: clamp(24px, 2.4vw, 36px); font-weight: 750; margin-bottom: 22px; font-stretch: 112%; line-height: 1.15; }
+.mblock ul { display: grid; gap: 12px; font-size: clamp(18px, 1.45vw, 21px); line-height: 1.4; }
+/* Un ritaglio è una regione della schermata 1x (x0 y0 x1 y1): --a è il suo rapporto, --w la larghezza
+   dell'immagine intera in % del riquadro, --l e --t gli spostamenti in % di larghezza e di altezza del riquadro. */
+.crop { position: relative; width: 100%; aspect-ratio: var(--a, 16 / 10); overflow: hidden; background: #06141B; border-radius: 10px; }
+.crop img { position: absolute; max-width: none; width: calc(var(--w) * 1%); left: calc(var(--l) * -1%); top: calc(var(--t) * -1%); height: auto; }
+.missions .key-quiet { color: #06141B; justify-self: start; font-weight: 700; text-decoration: underline; text-underline-offset: 5px; }
+.missions-mac { margin-top: clamp(96px, 10vw, 160px); padding: 0 6%; }
+.missions-mac figcaption { color: #253745; }
+.missions .text-link { color: #06141B; font-weight: 650; }
+
+/* MARK: 4 bis · Le storie */
+.tales { background: var(--surface); padding: clamp(96px, 10vw, 160px) var(--m); }
+.tales-head h2 { font-size: var(--t1); max-width: 13em; }
+.tales-head .statement { margin-top: 28px; max-width: 40ch; }
+.picker { display: flex; gap: 10px; margin-top: clamp(48px, 5vw, 72px); overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+.picker::-webkit-scrollbar { display: none; }
+.picker button {
+  flex: 1 0 150px; scroll-snap-align: start; display: grid; justify-items: center; gap: 10px;
+  padding: 18px 14px 16px; background: var(--bg); color: var(--soft); border: 0; border-radius: var(--key-r);
+  font: 600 var(--t5)/1.3 var(--f); cursor: pointer; transition: background-color .18s, color .18s;
+}
+.picker button:hover { background: #0C1D27; color: var(--ink-hi); }
+.picker button[aria-selected="true"] { background: var(--overlay); color: var(--ink-hi); }
+.picker button[aria-selected="true"] span:last-child { text-decoration: underline; text-decoration-color: var(--accent); text-decoration-thickness: 2px; text-underline-offset: 6px; }
+.picker img { width: 100%; max-width: 170px; height: auto; transition: transform .35s cubic-bezier(.2, .7, .2, 1); }
+.picker button:hover img, .picker button[aria-selected="true"] img { transform: translateY(-3px); }
+.rare-plate { display: grid; place-items: center; width: 100%; max-width: 170px; aspect-ratio: 1200 / 740; font: 800 30px/1 var(--f); font-stretch: 75%; letter-spacing: .12em; color: var(--gold); }
+.tale-stage { margin-top: clamp(48px, 5vw, 80px); }
+/* La storia è una nota lasciata in sala equipaggi: carta, nastro adesivo, il messaggio fra virgolette e la firma. */
+.tale {
+  position: relative; display: grid; grid-template-columns: 4fr 7fr; gap: clamp(28px, 4vw, 72px); align-items: start;
+  background: var(--paper); color: #06141B; padding: clamp(32px, 4vw, 60px); border-radius: 3px; rotate: -0.6deg;
+  filter: drop-shadow(0 2px 2px rgba(4, 13, 18, .3)) drop-shadow(0 22px 22px rgba(4, 13, 18, .45));
+}
+.tale::before { /* il nastro che la tiene */
+  content: ""; position: absolute; top: -13px; left: 50%; width: 132px; height: 28px; translate: -50% 0; rotate: 2.4deg;
+  background: rgba(255, 244, 226, .58); box-shadow: 0 1px 2px rgba(4, 13, 18, .25);
+}
+.tale h3 { font-size: var(--t3); font-stretch: 112%; color: #06141B; }
+.tale-meta { margin-top: 18px; display: grid; gap: 6px; color: #3F515F; font-size: var(--t5); font-variant-numeric: tabular-nums; }
+.tale-msg { margin: 0; }
+.tale-msg p { font-size: clamp(19px, 1.6vw, 24px); line-height: 1.6; font-style: italic; color: #06141B; max-width: 56ch; }
+.tale-msg p + p { margin-top: .9em; }
+.tale-msg p:first-child { text-indent: -0.42em; } /* la virgoletta d'apertura sta fuori dal margine */
+.tale-msg p:first-child::before { content: "\201C"; }
+.tale-msg p:last-child::after { content: "\201D"; }
+.tale-from { margin-top: 18px; font-size: var(--t5); font-weight: 650; letter-spacing: .02em; color: #3F515F; }
+.tale-from::before { content: "\2014\2002"; }
+.tale-text .tale-wx { font-size: var(--t5); color: #3F515F; margin-top: 1.6em; max-width: 60ch; }
+.tale-in { animation: rise .45s cubic-bezier(.2, .7, .2, 1); }
+.tale-foot { margin-top: clamp(40px, 4vw, 64px); display: grid; grid-template-columns: 4fr 7fr; gap: clamp(32px, 5vw, 96px); align-items: center; }
+.tale-foot .key { justify-self: start; }
+.key-second { color: var(--ink-hi); }
+.tales-truth { color: var(--soft); max-width: 60ch; }
+
+/* MARK: 5 · La ricevuta: dati a sinistra, scontrino a destra */
+.receipt { display: grid; grid-template-columns: 1fr 1fr; min-height: 92svh; position: relative; }
+.receipt-in { background: var(--sunken); padding: clamp(64px, 8vw, 120px) clamp(24px, 5vw, 88px) 180px; }
+.receipt-out { background: var(--light); display: grid; place-items: center; padding: clamp(64px, 8vw, 120px) var(--m) 180px; }
+.split-head { position: absolute; left: 0; right: 0; bottom: 40px; display: grid; grid-template-columns: 1fr 1fr; font-size: var(--t2); pointer-events: none; z-index: 1; }
+.split-a { padding-left: clamp(24px, 5vw, 88px); color: var(--ink-hi); }
+.split-b { padding-left: var(--m); color: #06141B; }
+.receipt-lead { font-size: var(--t3); line-height: 1.35; color: var(--ink-hi); max-width: 26ch; }
+.howdid { margin-top: 48px; display: grid; gap: 28px; }
+.howdid fieldset { border: 0; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 10px; }
+.howdid legend { width: 100%; padding: 0; margin-bottom: 12px; font-size: var(--t5); color: var(--soft); font-weight: 600; }
+.howdid label { position: relative; }
+.howdid input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+.howdid label span {
+  display: inline-flex; align-items: center; gap: 10px; min-height: 48px; padding: 0 18px;
+  background: var(--surface); color: var(--ink); border-radius: var(--key-r); font-weight: 600; font-size: 16px;
+  transition: background-color .15s, color .15s;
+}
+.howdid label span em { font-style: normal; color: var(--muted); font-weight: 500; font-variant-numeric: tabular-nums; }
+.howdid label:hover span { background: #182B38; }
+.howdid input:checked + span { background: var(--overlay); color: var(--accent); }
+.howdid input:checked + span em { color: var(--ink); }
+.howdid input:focus-visible + span { outline: 2px solid var(--accent); outline-offset: 3px; }
+.receipt-small { margin-top: 40px; max-width: 46ch; font-size: var(--t5); color: var(--muted); }
+
+/* lo strappo in fondo è quello della ricevuta dell'app */
+.paper {
+  width: min(100%, 440px); background: #ECEEEC; color: #06141B;
+  padding: 34px 30px 46px; font-size: 15px; line-height: 1.5; font-variant-numeric: tabular-nums;
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 10px), 95% 100%, 90% calc(100% - 10px), 85% 100%, 80% calc(100% - 10px), 75% 100%, 70% calc(100% - 10px), 65% 100%, 60% calc(100% - 10px), 55% 100%, 50% calc(100% - 10px), 45% 100%, 40% calc(100% - 10px), 35% 100%, 30% calc(100% - 10px), 25% 100%, 20% calc(100% - 10px), 15% 100%, 10% calc(100% - 10px), 5% 100%, 0 calc(100% - 10px));
+}
+.paper-title { font: 800 22px/1.1 var(--f); font-stretch: 150%; text-align: center; letter-spacing: .02em; text-transform: uppercase; }
+.paper-sub { text-align: center; margin-top: 6px; color: #253745; }
+.paper dl { margin: 22px 0 0; padding-top: 14px; border-top: 1.5px dashed #9BA8AB; }
+.paper dt { margin-top: 12px; font-size: 13px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: #3F515F; }
+.paper dd { display: flex; justify-content: space-between; gap: 12px; font-variant-numeric: tabular-nums; }
+.paper-total { display: flex; justify-content: space-between; align-items: baseline; margin-top: 16px; padding-top: 14px; border-top: 1.5px dashed #9BA8AB; font-weight: 800; text-transform: uppercase; }
+.paper-total strong { font-size: 28px; color: #06141B; }
+.paper-thanks { margin-top: 14px; text-align: center; font-size: 13px; color: #3F515F; }
+.bump { animation: bump .35s ease; }
+@keyframes bump { 40% { transform: translateY(-2px); color: #07623A; } }
+
+/* MARK: 6 · Il logbook */
+.logbook { padding: var(--gap-section) 0 0; }
+.logbook h2 { font-size: var(--t1); padding: 0 var(--m); max-width: 11em; }
+.logbook-map { margin-top: clamp(48px, 5vw, 80px); height: min(78vh, 860px); background: var(--bg); }
+/* Dal tablet in su il titolo sta dentro la mappa, in basso a sinistra sull'Atlantico. Un'ombra scura e morbida lo
+   stacca dalle scie; sul telefono la mappa mostra solo l'Europa e il titolo resta sopra. */
+@media (min-width: 761px) {
+  .logbook { display: grid; }
+  .logbook h2 {
+    grid-area: 1 / 1; z-index: 1; align-self: end; max-width: 8.2em; margin-bottom: clamp(36px, 4.5vw, 64px); pointer-events: none;
+    text-shadow: 0 0 14px rgba(6, 20, 27, .75), 0 0 3px rgba(6, 20, 27, .8);
+  }
+  .logbook-map { grid-area: 1 / 1; margin-top: 0; }
+}
+.logbook-text {
+  display: grid; grid-template-columns: 5fr 7fr; gap: clamp(40px, 6vw, 110px); align-items: start;
+  padding: clamp(64px, 7vw, 110px) var(--m) 0;
+}
+.facts { margin-top: 32px; display: grid; gap: 12px; max-width: 40ch; }
+.facts li { padding-left: 22px; position: relative; }
+.facts li::before { content: ""; position: absolute; left: 0; top: .62em; width: 8px; height: 8px; border-radius: 50%; background: var(--trail-glow); }
+
+/* MARK: 7 · L'hangar */
+.hangar {
+  margin-top: var(--gap-section);
+  display: grid; grid-template-columns: 1fr 1fr;
+  background: var(--surface);
+}
+.plate { margin: 40px; aspect-ratio: 1; background: var(--bg); display: grid; place-items: center; border-radius: var(--r); overflow: hidden; }
+.plate img { width: 92%; height: auto; transition: opacity .35s ease, transform .5s cubic-bezier(.2, .7, .2, 1); }
+.plate img.swap { opacity: 0; transform: translateX(-18px); }
+.hangar-text { display: flex; flex-direction: column; justify-content: space-between; gap: 40px; padding: 56px var(--m) 40px 24px; }
+.tabs { display: flex; flex-wrap: wrap; gap: 6px 22px; }
+.tabs button { background: none; border: 0; padding: 0; min-height: 44px; font: 600 var(--t4)/1.3 var(--f); color: var(--muted); cursor: pointer; transition: color .15s; }
+.tabs button:hover { color: var(--ink); }
+.tabs button[aria-selected="true"] { color: var(--ink-hi); text-decoration: underline; text-decoration-color: var(--accent); text-decoration-thickness: 2px; text-underline-offset: 8px; }
+.hangar-copy h2 { font-size: var(--t2); max-width: 12em; }
+.tabtext p { margin-top: 28px; font-size: var(--t3); line-height: 1.35; color: var(--ink-hi); max-width: 30ch; }
+.hangar-common { margin-top: 24px; max-width: 46ch; color: var(--ink); }
+.cells { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.hcell { display: flex; flex-direction: column; justify-content: center; gap: 2px; min-height: 76px; padding: 0 20px; background: var(--bg); border-radius: var(--key-r); }
+.hcell span:first-child { font-size: 14px; color: var(--muted); font-weight: 600; }
+.cell-v { font-weight: 650; color: var(--ink-hi); }
+.hcell-alt { background: var(--overlay); }
+.hangar-mac { grid-column: 1 / -1; padding: clamp(40px, 5vw, 80px) 12% clamp(64px, 7vw, 110px); }
+
+/* MARK: 8 · Il territorio */
+.network { padding: var(--gap-section) var(--m) 0; }
+.network-head { display: grid; grid-template-columns: 5fr 7fr; gap: 40px; align-items: end; }
+.network-head h2 { font-size: var(--t1); }
+.levels { margin-top: clamp(56px, 6vw, 96px); display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.levels li { background: var(--surface); border-radius: var(--r); padding: 12px 12px 26px; }
+.levels img { width: 100%; height: auto; }
+.levels p { padding: 0 14px; color: var(--ink); }
+.levels strong { display: block; font-size: var(--t3); font-stretch: 125%; margin-bottom: 4px; }
+/* Basi e territorio: due righe, la schermata prima a destra e poi a sinistra, ognuna col suo testo. */
+.nrow { display: grid; grid-template-columns: 5fr 7fr; gap: clamp(40px, 6vw, 110px); align-items: center; margin-top: clamp(72px, 8vw, 130px); }
+.nrow-flip { grid-template-columns: 7fr 5fr; }
+.ntext h3 { font-size: var(--t3); margin-bottom: 20px; }
+.ntext p, .build-list { max-width: 44ch; }
+.ntext p + p, .ntext p + .build-list, .build-list + p { margin-top: 18px; }
+.build-list { display: grid; gap: 10px; }
+
+/* MARK: 9 · La compagnia */
+.airline { margin-top: var(--gap-section); display: grid; grid-template-columns: 1fr 1fr; }
+.airline-stage {
+  position: sticky; top: 64px; height: calc(100svh - 64px); align-self: start;
+  background: var(--overlay); display: grid; place-items: center; padding: 32px;
+}
+/* I biglietti: uno per stile, disegnati apposta. Tutti portano nome, codice e livrea (--livery) della compagnia. */
+.tickets { position: relative; width: min(100%, 540px); container-type: inline-size; filter: drop-shadow(0 26px 28px rgba(0, 0, 0, .4)); }
+/* La livrea stampata su carta chiara: scurita, così anche l'avorio si legge. */
+.ticket { --ink-livery: color-mix(in srgb, var(--livery) 68%, #06141B); }
+.ink-defs { position: absolute; width: 0; height: 0; }
+.ticket { position: relative; font-size: 15px; line-height: 1.3; }
+.ticket p, .ticket dl, .ticket ol { margin: 0; }
+.ticket dd { margin: 0; }
+.ticket-in { animation: ticket-in .5s cubic-bezier(.2, .7, .2, 1); }
+@keyframes ticket-in { from { opacity: 0; translate: 0 16px; } }
+.tk-arrow { width: 34px; height: 12px; flex: none; }
+
+/* Linea: prima classe, blu notte e oro, cornice a filo e codice a barre */
+.tk-line {
+  display: grid; grid-template-columns: 1fr 30%; background: #0E2330; color: var(--paper); border-radius: 14px;
+  box-shadow: inset 0 0 0 8px #0E2330, inset 0 0 0 9px rgba(233, 196, 106, .5);
+  --cut: 70%; /* dove il tagliando si stacca: le due tacche sono tagli veri */
+  mask: radial-gradient(circle at var(--cut) 0, #0000 11px, #000 11.5px) top / 100% 51% no-repeat,
+        radial-gradient(circle at var(--cut) 100%, #0000 11px, #000 11.5px) bottom / 100% 51% no-repeat;
+}
+.tk-line::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 6px; border-radius: 14px 0 0 14px; background: var(--livery); transition: background-color .3s; }
+.tk-line .tk-main { padding: clamp(22px, 6cqi, 34px) clamp(14px, 4cqi, 24px) clamp(20px, 5cqi, 28px) clamp(24px, 7cqi, 40px); min-width: 0; }
+.tk-line .tk-head { display: flex; align-items: center; gap: 10px; }
+.tk-seal { flex: none; display: grid; place-items: center; width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--gold); color: var(--gold); font: 700 10px/1 var(--f); letter-spacing: .06em; }
+.tk-line .tk-airline { flex: 1; min-width: 0; font-family: ui-serif, "New York", "Iowan Old Style", Georgia, serif; font-size: clamp(17px, 4.4cqi, 23px); line-height: 1.15; color: #F6F3EC; overflow-wrap: anywhere; }
+.tk-line .tk-class { flex: none; font-size: 11px; font-weight: 700; letter-spacing: .34em; text-transform: uppercase; color: var(--gold); padding: 5px 0 5px .34em; border-block: 1px solid rgba(233, 196, 106, .7); }
+.tk-line .tk-route { display: flex; align-items: center; gap: 12px; margin-top: clamp(16px, 5cqi, 26px); font-size: clamp(28px, 8cqi, 42px); font-weight: 650; font-stretch: 125%; line-height: 1; color: #F6F3EC; }
+.tk-plane { flex: 1; height: 18px; fill: var(--gold); background: linear-gradient(rgba(233, 196, 106, .55), rgba(233, 196, 106, .55)) center / 100% 1px no-repeat; }
+.tk-line .tk-places { display: flex; justify-content: space-between; gap: 12px; margin-top: 8px; font-family: ui-serif, "New York", Georgia, serif; font-style: italic; font-size: 14px; color: #BAC3C3; }
+.tk-line .tk-data { display: grid; grid-template-columns: repeat(4, auto); justify-content: space-between; gap: 10px 14px; margin-top: clamp(16px, 5cqi, 24px); padding-top: 14px; border-top: 1px solid rgba(233, 196, 106, .3); }
+.tk-line dt, .tk-line .tk-k { font-size: 10.5px; font-weight: 650; letter-spacing: .14em; text-transform: uppercase; color: var(--gold); }
+.tk-line dd { font-size: 14px; color: #F6F3EC; font-variant-numeric: tabular-nums; white-space: nowrap; margin-top: 2px; }
+.tk-line .tk-stub { position: relative; display: flex; flex-direction: column; padding: clamp(24px, 6cqi, 34px) clamp(14px, 4cqi, 24px) clamp(18px, 5cqi, 26px); border-left: 1.5px dashed rgba(233, 196, 106, .45); }
+.tk-line .tk-take { margin: 2px 0 12px; font-size: clamp(17px, 4.6cqi, 22px); font-weight: 700; color: var(--green); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.tk-line .tk-land { margin-top: 2px; font-weight: 600; color: #F6F3EC; }
+.tk-bars { margin-top: auto; padding-top: 16px; width: 100%; height: auto; fill: var(--gold); opacity: .85; }
+
+/* Charter e isole: il biglietto dell'hopper, stampato storto, piegato, timbrato, col tagliando strappato */
+.tk-charter { display: grid; grid-template-columns: 1fr 28%; color: #2A4152; rotate: -1.4deg; }
+.tk-charter .tk-main {
+  position: relative; min-width: 0; padding: clamp(18px, 5cqi, 26px) clamp(16px, 5cqi, 26px) clamp(18px, 5cqi, 24px);
+  border-radius: 6px 0 2px 10px; clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 0 100%);
+  background:
+    radial-gradient(circle at 80% 30%, transparent 0 25px, rgba(122, 78, 36, .17) 26px 27.5px, rgba(122, 78, 36, .06) 29px, transparent 32px),
+    linear-gradient(98deg, transparent 0 57%, rgba(70, 48, 14, .08) 59%, rgba(255, 255, 255, .38) 60%, transparent 62%),
+    radial-gradient(ellipse at 6% 100%, rgba(120, 88, 36, .2), transparent 55%),
+    radial-gradient(ellipse at 100% 0%, rgba(120, 88, 36, .12), transparent 45%),
+    #EEDFBC;
+}
+.tk-charter .tk-main::before { content: ""; position: absolute; right: 0; top: 0; width: 24px; height: 24px; background: linear-gradient(225deg, transparent 50%, #D8C597 50%); box-shadow: -2px 2px 3px rgba(70, 48, 14, .2); }
+.tk-printed { font-size: clamp(21px, 6cqi, 30px); font-weight: 850; font-stretch: 75%; letter-spacing: .05em; line-height: 1; text-transform: uppercase; color: var(--ink-livery); filter: url(#ink); text-shadow: 1.5px .5px 0 rgba(42, 65, 82, .22); overflow-wrap: anywhere; transition: color .3s; }
+.tk-charter .tk-sub { margin-top: 6px; font-size: 10.5px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: #55656B; }
+.tk-charter .tk-route { display: flex; align-items: center; gap: 10px; margin-top: clamp(14px, 4cqi, 20px); font: 700 clamp(24px, 7cqi, 34px)/1 ui-monospace, "SF Mono", Menlo, monospace; color: #23394A; }
+.tk-charter .tk-places { display: flex; gap: 12px; justify-content: space-between; max-width: 21em; margin-top: 6px; font-size: 12px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: #4F5F66; }
+.tk-charter .tk-data { display: grid; grid-template-columns: repeat(2, auto); justify-content: start; gap: 8px 28px; margin-top: clamp(14px, 4cqi, 20px); }
+.tk-charter dt { font-size: 10px; font-weight: 650; letter-spacing: .12em; text-transform: uppercase; color: #55656B; }
+.tk-charter dd { font: 600 14px/1.25 ui-monospace, "SF Mono", Menlo, monospace; color: #23394A; }
+.tk-boarded { position: absolute; right: 7%; bottom: 12%; width: clamp(96px, 28cqi, 146px); color: #B83A34; rotate: -13deg; opacity: .85; filter: url(#ink); mix-blend-mode: multiply; pointer-events: none; }
+.tk-boarded text { font: 800 22px var(--f); letter-spacing: .12em; fill: currentColor; }
+.tk-boarded .tk-boarded-date { font-size: 9.5px; font-weight: 700; letter-spacing: .14em; }
+.tk-charter .tk-stub {
+  display: flex; flex-direction: column; gap: 2px; padding: clamp(18px, 5cqi, 24px) 12px 16px clamp(16px, 4.5cqi, 22px);
+  background: radial-gradient(ellipse at 70% 100%, rgba(120, 88, 36, .2), transparent 60%), #E9D6AC;
+  rotate: 3.5deg; translate: 7px 8px; clip-path: polygon(100% 0, 100% 100%, 0px 100.0%, 5px 95.5%, 0px 90.9%, 5px 86.4%, 0px 81.8%, 5px 77.3%, 0px 72.7%, 5px 68.2%, 0px 63.6%, 5px 59.1%, 0px 54.5%, 5px 50.0%, 0px 45.5%, 5px 40.9%, 0px 36.4%, 5px 31.8%, 0px 27.3%, 5px 22.7%, 0px 18.2%, 5px 13.6%, 0px 9.1%, 5px 4.5%, 0px 0.0%);
+}
+.tk-charter .tk-k { font-size: 10px; font-weight: 650; letter-spacing: .12em; text-transform: uppercase; color: #55656B; }
+.tk-charter .tk-take { font: 700 clamp(16px, 4.4cqi, 20px)/1.2 ui-monospace, "SF Mono", Menlo, monospace; color: #1F6B45; white-space: nowrap; }
+.tk-charter .tk-land { font-weight: 650; }
+.tk-pax { margin-top: auto; padding-top: 12px; font: 400 clamp(14px, 3.8cqi, 17px)/1.15 "Bradley Hand", "Noteworthy", "Segoe Print", cursive; color: #23466B; rotate: -5deg; }
+
+/* Tour: il biglietto a tappe, carta di sicurezza, le tappe fatte forate e timbrate */
+.tk-tour {
+  padding: clamp(22px, 6cqi, 30px) clamp(18px, 5cqi, 28px) clamp(16px, 4.5cqi, 22px); border-radius: 10px; color: #17303D; overflow: hidden;
+  background:
+    repeating-radial-gradient(circle at 0 100%, transparent 0 11px, rgba(18, 165, 148, .09) 11px 12px),
+    repeating-radial-gradient(circle at 100% 0, transparent 0 11px, rgba(79, 123, 255, .07) 11px 12px),
+    #E4EBE7;
+}
+.tk-tour::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 8px; background: var(--livery); transition: background-color .3s; }
+.tk-tour .tk-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+.tk-tour .tk-airline { min-width: 0; font-size: clamp(18px, 5cqi, 23px); font-weight: 750; font-stretch: 125%; overflow-wrap: anywhere; line-height: 1.1; }
+.tk-tour .tk-class { flex: none; font-size: 10.5px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: #49616B; }
+.tk-goal { margin-top: 4px; font-size: 14px; font-style: italic; color: #49616B; }
+.tk-legs { list-style: none; padding: 0; margin-top: clamp(12px, 4cqi, 18px); border-top: 1.5px dashed #9DB0B3; }
+.tk-legs li { display: grid; grid-template-columns: 24px 1fr auto 16px; align-items: center; gap: 12px; padding: clamp(7px, 2.2cqi, 10px) 0; border-bottom: 1.5px dashed #9DB0B3; }
+.tk-n { display: grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; border: 1.5px solid currentColor; font-size: 11px; font-weight: 750; }
+.tk-pair { display: inline-flex; align-items: center; gap: 8px; font: 650 clamp(15px, 4.4cqi, 20px)/1 ui-monospace, "SF Mono", Menlo, monospace; letter-spacing: .02em; }
+.tk-pair .tk-arrow { width: 26px; }
+.tk-when { font-size: 11px; font-weight: 650; letter-spacing: .1em; text-transform: uppercase; color: #49616B; }
+.tk-legs li::after { content: ""; width: 14px; height: 14px; border-radius: 50%; }
+.tk-legs .tk-done::after { background: var(--overlay); box-shadow: inset 0 1px 2px rgba(0, 0, 0, .55); } /* la tappa fatta è forata */
+.tk-legs .tk-done .tk-n { background: #17303D; border-color: #17303D; color: #E4EBE7; }
+.tk-tour .tk-foot { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 6px 14px; margin-top: 14px; font-size: 13px; font-weight: 600; color: #49616B; }
+.tk-tour .tk-take { font-size: 18px; font-weight: 750; color: #1F7A4A; font-variant-numeric: tabular-nums; }
+.tk-visa { position: absolute; color: var(--ink-livery); filter: url(#ink); opacity: .82; mix-blend-mode: multiply; pointer-events: none; transition: color .3s; }
+.tk-visa text { font: 750 9.5px var(--f); letter-spacing: .1em; fill: currentColor; }
+.tk-visa .tk-visa-big { font-size: 19px; font-weight: 850; letter-spacing: .06em; }
+.tk-visa-1 { width: clamp(72px, 19cqi, 98px); right: 36%; top: 21%; rotate: -15deg; }
+.tk-visa-2 { width: clamp(88px, 23cqi, 118px); right: 20%; top: 37%; rotate: 8deg; color: #1F7A4A; }
+
+/* Aeroclub: la pagina del libretto del socio, cucita sul dorso nel colore della compagnia */
+.tk-club { border-radius: 4px 10px 10px 4px; background: #F1EEE4; color: #1E3A2B; padding: clamp(18px, 5cqi, 26px) clamp(16px, 5cqi, 26px) clamp(14px, 4cqi, 20px) clamp(40px, 10cqi, 52px); }
+.tk-club::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: clamp(20px, 5cqi, 26px); border-radius: 4px 0 0 4px; background: var(--livery); transition: background-color .3s; }
+.tk-club::after { content: ""; position: absolute; left: clamp(9px, 2.4cqi, 12px); top: 10px; bottom: 10px; border-left: 2px dashed rgba(255, 255, 255, .6); }
+.tk-club .tk-head { display: flex; align-items: center; gap: 10px; font-size: clamp(16px, 4.6cqi, 21px); font-weight: 750; line-height: 1.15; }
+.tk-wings { flex: none; width: clamp(38px, 10cqi, 48px); fill: var(--ink-livery); transition: fill .3s; }
+.tk-member { margin-top: 6px; font-size: 10.5px; font-weight: 650; letter-spacing: .14em; text-transform: uppercase; color: #4D6A5A; }
+.tk-log { width: 100%; border-collapse: collapse; margin-top: clamp(10px, 3cqi, 14px); font-size: 13px; }
+.tk-log th { padding: 0 8px 6px 0; border-bottom: 1.5px solid #30A46C; text-align: left; font-size: 9.5px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: #4D6A5A; }
+.tk-log td { padding: 5px 8px 4px 0; border-bottom: 1px solid rgba(48, 164, 108, .4); white-space: nowrap; font: 400 clamp(13px, 3.6cqi, 15px)/1.2 "Bradley Hand", "Noteworthy", "Segoe Print", cursive; color: #5B6670; }
+.tk-log .tk-today td { color: #23466B; }
+.tk-sig { display: block; width: 52px; height: 15px; }
+.tk-club .tk-foot { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-top: 12px; font-size: 13px; font-weight: 600; color: #4D6A5A; }
+.tk-club .tk-take { font-size: 18px; font-weight: 750; color: #1F7A4A; font-variant-numeric: tabular-nums; }
+
+@container (max-width: 440px) {
+  .tk-line .tk-data { grid-template-columns: auto auto; justify-content: start; column-gap: 26px; }
+  .tk-line .tk-class { letter-spacing: .22em; padding-left: .22em; }
+  .tk-log th:nth-child(2), .tk-log td:nth-child(2) { display: none; }
+  .tk-charter .tk-data { column-gap: 18px; }
+  .tk-line { grid-template-columns: 1fr 31%; --cut: 69%; }
+  .tk-line .tk-k { letter-spacing: .08em; white-space: nowrap; }
+  .tk-boarded { width: 66px; right: 2%; bottom: 7%; }
+  .tk-visa-1 { width: 62px; right: 25%; top: 9%; }
+  .tk-visa-2 { width: 76px; right: 3%; top: 66%; }
+}
+
+.airline-text { padding: clamp(72px, 8vw, 120px) clamp(24px, 6vw, 110px) 120px clamp(24px, 4vw, 72px); }
+.airline-text h2 { font-size: var(--t2); max-width: 12em; }
+.ablock { margin-top: 26vh; max-width: 44ch; }
+.ablock:first-of-type { margin-top: 72px; }
+.ablock-say { font-size: var(--t3); font-weight: 650; color: var(--ink-hi); line-height: 1.25; margin-bottom: 10px; }
+.fields { display: flex; gap: 12px; margin-top: 22px; flex-wrap: wrap; }
+.fields label { display: grid; gap: 6px; font-size: var(--t5); color: var(--soft); font-weight: 600; }
+.fields input {
+  font: 500 17px/1 var(--f); color: var(--ink-hi); background: var(--surface);
+  border: 0; border-radius: var(--key-r); height: 48px; padding: 0 14px; width: 230px;
+}
+.fields label:last-child input { width: 92px; text-transform: uppercase; letter-spacing: .08em; }
+.fields input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.swatches { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
+.swatches button { width: 44px; height: 44px; border-radius: 50%; border: 0; background: var(--c); cursor: pointer; transition: transform .15s; }
+.swatches button:hover { transform: scale(1.08); }
+.swatches button[aria-checked="true"] { outline: 2px solid var(--ink-hi); outline-offset: 3px; }
+.segments { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
+.segments button {
+  min-height: 44px; padding: 0 16px; border: 0; border-radius: var(--key-r);
+  background: var(--surface); color: var(--ink); font: 600 15px/1 var(--f); cursor: pointer; transition: background-color .15s, color .15s;
+}
+.segments button:hover { background: #182B38; }
+.segments button[aria-checked="true"] { background: var(--overlay); color: var(--accent); }
+
+/* MARK: 10 · I gradi */
+.ranks { padding: var(--gap-section) var(--m) 0; background: url(assets/carta.svg) center top 40% / 1600px auto no-repeat; }
+.ranks-col { width: min(100%, 640px); margin: 0 auto; container-type: inline-size; }
+.giant { font-size: 25.5cqi; font-stretch: 75%; font-weight: 800; text-transform: uppercase; line-height: .82; letter-spacing: -.01em; color: var(--gold); }
+.ranks-lead { margin: 28px 0 24px; font-size: var(--t3); line-height: 1.35; color: var(--ink-hi); }
+.bars { display: grid; gap: 6px; }
+.bars details { background: var(--surface); border-radius: var(--key-r); }
+.bars summary {
+  display: flex; align-items: center; gap: 16px; min-height: 60px; padding: 0 20px;
+  cursor: pointer; list-style: none; font-weight: 650; color: var(--ink-hi);
+}
+.bars summary::-webkit-details-marker { display: none; }
+.bars summary::after { content: "+"; margin-left: 12px; font-size: 22px; font-weight: 400; color: var(--muted); transition: transform .2s; }
+.bars details[open] summary::after { transform: rotate(45deg); }
+.bar-when { margin-left: auto; font-weight: 500; color: var(--muted); font-size: var(--t5); }
+.bars details p { padding: 0 20px 20px 96px; color: var(--ink); max-width: 60ch; }
+.bars details:hover { background: #142634; }
+/* La spallina del grado, come Epaulette nell'app: Cadet 1 gallone, First Officer 3, Captain 4; Senior Captain 4 con la
+   stellina d'oro sopra, Training Captain 4 con la chevron sopra. Proporzioni dell'app (44 × 22) a 1,36 volte. */
+.stripes { flex: none; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2.5px; width: 60px; height: 30px; border-radius: 5px; background: var(--overlay); }
+.stripes i { display: block; width: 41px; height: 4px; background: var(--gold); }
+.stripes.s4 { gap: 2px; }
+.stripes.s4 i { height: 3px; }
+.stripes svg { width: 9px; height: 9px; margin-bottom: .5px; fill: var(--gold); stroke: var(--gold); }
+.ranks-more { margin-top: 36px; color: var(--ink); max-width: 60ch; }
+
+/* MARK: 11 · Ovunque */
+.everywhere { padding: var(--gap-section) var(--m) 0; background: url(assets/carta.svg) right -200px top 40% / 1400px auto no-repeat; }
+.everywhere h2 { font-size: var(--t2); max-width: 14em; }
+.platforms { display: flex; flex-wrap: wrap; gap: 0 .5em; margin-top: 40px; font-size: var(--t1); font-weight: 750; font-stretch: 125%; letter-spacing: -.03em; line-height: 1; color: var(--ink-hi); }
+.platforms span:nth-child(2n) { color: var(--title); }
+.route-line { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; margin-top: 56px; max-width: 1100px; }
+.route-line p { position: relative; padding-top: 22px; color: var(--ink); }
+.route-line p::before { content: ""; position: absolute; top: 0; left: 0; width: 10px; height: 10px; border-radius: 50%; background: var(--accent); }
+.route-line p:nth-child(2)::before { background: var(--title); }
+.route-line p:nth-child(3)::before { background: var(--magenta); }
+.everywhere-foot + .everywhere-foot { margin-top: 20px; }
+.everywhere-foot { margin-top: 48px; max-width: 46ch; font-size: var(--t3); line-height: 1.35; color: var(--ink-hi); }
+
+/* MARK: 12 · La lettera, su un foglio */
+.origin { padding: var(--gap-section) var(--m) 0; display: grid; place-items: center; }
+.letter { width: min(100%, 680px); }
+.letter-sheet {
+  background: #E6E9E8; color: #06141B; padding: clamp(32px, 6vw, 64px) clamp(24px, 6vw, 64px);
+}
+.letter-mark { margin-bottom: 32px; }
+.letter-sheet p { font-size: var(--t4); line-height: 1.6; color: #06141B; max-width: 60ch; }
+.letter-sheet p + p { margin-top: 1.1em; }
+.letter-sheet .letter-sign { font-size: var(--t3); font-style: italic; font-weight: 500; margin-top: 1.6em; }
+.letter-sheet .letter-role { font-size: var(--t5); color: #3F515F; margin-top: 2px; }
+.letter-stub { margin-top: 10px; background: var(--surface); padding: 24px clamp(24px, 6vw, 64px); }
+.letter-stub p { color: var(--ink); }
+.letter-stub a { color: var(--accent); white-space: nowrap; }
+
+/* MARK: 13 · Domande */
+.faq { background: url(assets/carta.svg) left -300px top 30% / 1300px auto no-repeat; padding: var(--gap-section) var(--m) 0; display: grid; grid-template-columns: repeat(12, 1fr); column-gap: 24px; }
+.faq h2 { grid-column: 1 / 4; font-size: var(--t3); align-self: start; }
+.faq-text { grid-column: 5 / 13; columns: 2; column-gap: 56px; }
+.faq-text p { break-inside: avoid; margin-bottom: 22px; font-size: var(--t4); color: var(--ink); }
+.faq-text strong { font-weight: 650; }
+.faq-text a { color: var(--accent); }
+
+/* MARK: 14 · Chiusura e piede */
+.close { display: grid; grid-template-columns: 5fr 7fr; gap: clamp(40px, 5vw, 96px); align-items: center; padding: clamp(120px, 14vw, 200px) var(--m) clamp(96px, 10vw, 160px); }
+.lockup-close { margin-bottom: 36px; }
+.close-map { aspect-ratio: 4 / 3; border-radius: var(--r); overflow: hidden; background: var(--bg); }
+.close-line { font-size: var(--t3); max-width: 34ch; color: var(--ink-hi); }
+.close-act { margin-top: 26px; }
+.close-note { margin-top: 16px; font-size: var(--t5); color: var(--muted); }
+.foot { padding: 0 var(--m) 30px; }
+.foot-line { display: grid; grid-template-columns: 1fr auto 1fr; align-items: baseline; gap: 24px; font-size: var(--t5); color: var(--muted); }
+.foot-line p:last-child { text-align: right; }
+.foot nav { display: flex; gap: 24px; }
+.foot nav a { color: var(--ink); text-decoration: none; }
+.foot nav a:hover { color: var(--accent); }
+/* La nota legale: da un bordo all'altro, piccola e in un grigio scuro (3,2:1 sul fondo): c'è se la cerchi. */
+.foot-small { margin-top: 18px; font-size: 12px; line-height: 1.5; color: #5A676D; }
+
+/* MARK: Supporto e privacy */
+.prose { width: min(100% - 2 * var(--m), 720px); margin: 0 auto; padding: clamp(64px, 9vw, 120px) 0 clamp(96px, 10vw, 160px); }
+.prose h1 { font-size: var(--t2); }
+.prose h2 { font-size: var(--t3); margin-top: 64px; margin-bottom: 16px; font-stretch: 100%; }
+.prose h3 { font-size: var(--t4); margin-top: 28px; margin-bottom: 6px; }
+.prose p, .prose li { color: var(--ink); max-width: 64ch; }
+.prose p + p { margin-top: 1em; }
+.prose a { color: var(--accent); }
+.prose-lead { margin-top: 24px; font-size: var(--t3); line-height: 1.35; color: var(--ink-hi) !important; }
+.prose-mail { margin: 28px 0; font-size: var(--t3); font-weight: 650; }
+.prose-date, .prose-note { font-size: var(--t5); color: var(--muted) !important; margin-top: 20px; }
+.prose-note { margin-top: 64px; }
+.prose-steps { list-style: decimal; padding-left: 1.4em; display: grid; gap: 10px; }
+.prose-list { display: grid; gap: 14px; margin: 16px 0; padding-left: 1.2em; list-style: disc; }
+.prose-list li::marker, .prose-steps li::marker { color: var(--muted); }
+
+/* MARK: Entrate (solo con lo script e senza Riduci movimento) */
+@keyframes rise { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: none; } }
+.js [data-rise] { opacity: 0; transform: translateY(24px); transition: opacity .7s ease var(--rd, 0s), transform .8s cubic-bezier(.2, .7, .2, 1) var(--rd, 0s); }
+.js [data-rise].in { opacity: 1; transform: none; }
+
+/* MARK: Tablet */
+@media (max-width: 1100px) {
+  .bar-links { display: none; }
+  .bar { grid-template-columns: auto 1fr auto; }
+  .hero { grid-template-columns: 1fr; height: auto; max-height: none; }
+  .hero-sheet { padding: 72px clamp(24px, 6vw, 64px) 64px; }
+  .hero-stage { height: 72svh; min-height: 520px; }
+  .intro { grid-template-columns: 1fr; padding-left: var(--m); }
+  .intro-text { max-width: 40em; }
+  .loop { grid-template-columns: 1fr 1fr; gap: 32px; }
+  .loop-stage { grid-column: 2; }
+  .flight { grid-template-columns: 1fr; }
+  .close { grid-template-columns: 1fr; }
+  .loop-say { font-size: clamp(26px, 4vw, 36px); }
+  .tale, .tale-foot { grid-template-columns: 1fr; }
+  .receipt { grid-template-columns: 1fr; }
+  .split-head { position: static; display: contents; }
+  .split-a { order: 0; background: var(--sunken); padding: 72px var(--m) 0; display: block; }
+  .receipt-in { order: 1; padding-top: 32px; padding-bottom: 72px; }
+  .split-b { order: 2; background: var(--light); padding: 72px var(--m) 0; display: block; }
+  .receipt-out { order: 3; padding-top: 32px; padding-bottom: 96px; }
+  .logbook-text, .nrow, .network-head { grid-template-columns: 1fr; }
+  .nrow-flip .mac { order: 2; }
+  .hangar { grid-template-columns: 1fr; }
+  .hangar-text { padding: 0 var(--m) 40px; }
+  .airline { display: flex; flex-direction: column; }
+  .airline-text { display: contents; }
+  .airline-text h2 { order: 0; padding: 0 var(--m) 32px; }
+  .airline-stage { order: 1; align-self: stretch; top: 58px; height: auto; padding: 24px var(--m); z-index: 2; }
+  .ablock { order: 2; padding: 0 var(--m); }
+  .ablock, .ablock:first-of-type { margin-top: 64px; }
+  .faq h2 { grid-column: 1 / -1; margin-bottom: 32px; }
+  .faq-text { grid-column: 1 / -1; }
+  .levels { grid-template-columns: 1fr 1fr 1fr; }
+}
+
+/* MARK: Telefono */
+@media (max-width: 760px) {
+  .pass-key-small { --stub: 25px; --h: 36px; --nr: 4px; }
+  .pass-key-small .pass-key-stub svg { width: 12px; height: 12px; }
+  .pass-key-small .pass-key-text { padding: 0 9px 0 8px; font-size: 12px; font-weight: 650; font-stretch: 100%; letter-spacing: 0; text-transform: none; }
+  .wordmark span { white-space: nowrap; }
+  .bars summary { gap: 12px; padding: 0 14px; }
+  .bar-when { white-space: nowrap; }
+  .bars details p { padding: 0 14px 18px; }
+  .stripes { width: 48px; height: 24px; gap: 2px; }
+  .stripes i { width: 33px; height: 3px; }
+  .stripes.s4 { gap: 1.5px; }
+  .stripes.s4 i { height: 2.5px; }
+  .stripes svg { width: 7px; height: 7px; }
+  :root { --gap-section: 104px; }
+  .bar { height: 58px; gap: 12px; }
+  .wordmark span { font-size: 17px; }
+  .hero { padding: 0 8px 8px; gap: 8px; }
+  .hero-sheet { padding: 56px 20px 48px; }
+  .hero h1 { font-size: 8.8vw; }
+  .hero-stage { height: 64svh; min-height: 480px; }
+  .board { width: 96cqi; --cw: calc((96cqi - 44px) / 24); bottom: 76px; }
+  .board-name { --nk: 2.05; gap: 2px; }
+  .board-rows li > .flaps:nth-child(2) { display: none; }
+  .board-rows li { grid-template-columns: auto 1fr auto; }
+  .row-note { grid-column: 2 / -1; }
+  .hero-strip { height: auto; flex-direction: column; align-items: flex-start; gap: 2px; padding: 12px 16px; font-size: 14px; }
+  .loop { display: flex; flex-direction: column; }
+  .loop-text { display: contents; }
+  .loop-text > h2 { order: 0; }
+  .loop-intro { order: 1; margin-bottom: 24px; }
+  .loop-stage { order: 2; position: sticky; top: 58px; height: auto; z-index: 2; background: var(--bg); padding: 10px 0; }
+  .loop-steps { order: 3; }
+  .mission { padding: 18px 18px 16px; }
+  .mission-panel { min-height: 0; margin-top: 12px; }
+  .drill { display: none; }
+  .loop-steps li { min-height: 60svh; padding-left: 44px; }
+  .loop-say { font-size: 22px; }
+  .loop-say::before { left: -42px; width: 16px; height: 16px; }
+  .loop-steps::before { left: 7px; }
+  .loop-steps li p:not(.loop-say) { font-size: var(--t4); }
+  .missions-head { font-size: 13vw; }
+  .tales-head h2 { font-size: 8.4vw; }
+  .picker { display: grid; grid-template-columns: repeat(3, 1fr); overflow: visible; }
+  .picker button { padding: 12px 6px 10px; }
+  .rare-plate { font-size: 22px; }
+  .mblock h3 { font-size: 24px; }
+  .mblock { display: block; }
+  .mblock .crop { max-width: 520px; margin-bottom: 28px; }
+  .mblock:first-child .crop { max-width: 320px; }
+  .missions-mac { padding: 0; }
+  .split-head { font-size: 9.4vw; }
+  .paper { padding: 26px 18px 40px; font-size: 13px; }
+  .logbook-map { height: 56svh; }
+  .plate { margin: 16px; }
+  .cells { grid-template-columns: 1fr; }
+  .hangar-mac { padding: 40px var(--m) 72px; }
+  .levels { grid-template-columns: 1fr; }
+  .route-line { grid-template-columns: 1fr; gap: 24px; }
+  .faq-text { columns: 1; }
+  .close { padding: 104px var(--m) 72px; }
+  .foot-line { grid-template-columns: 1fr; gap: 8px; }
+  .foot-line p:last-child { text-align: left; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .js [data-rise] { opacity: 1; transform: none; }
+}

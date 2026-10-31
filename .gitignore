@@ -1,0 +1,7 @@
+.DS_Store
+.taste-skill/
+# Materiale di lavoro: resta sul disco, fuori dal repo pubblico (la storia completa è nel ramo locale storia-locale)
+docs/
+tools/
+.agents/
+.claude/
