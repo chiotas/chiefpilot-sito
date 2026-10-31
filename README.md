@@ -2,7 +2,7 @@
 
 La pagina pubblica di **Chief Pilot** (l'app: `~/Documents/Development/Contrail`), su GitHub Pages con dominio `chiefpilot.app`, come `bottlegram-sito`. La strategia è in `Contrail/docs/sito/2026-10-26-strategia-sito.md`; il progetto della pagina in `docs/2026-10-30-pagina-design.md`; posizionamento e lingua del pubblico in `.agents/product-marketing.md`.
 
-**Stato al 31/10/2026: la pagina c'è, in inglese, con le schermate vere in inglese, non pubblicata.** Niente repo su GitHub, niente DNS: si fa alla fine, col sì di Francesco.
+**Stato al 31/10/2026: pubblicata su https://www.chiefpilot.app** (GitHub Pages dal repo pubblico `chiotas/chiefpilot-sito`, ramo `main`, cartella `/`), col sì di Francesco. Il dominio nudo `chiefpilot.app` porta al `www`.
 
 ## Com'è fatto
 
@@ -20,15 +20,23 @@ assets/
   carta*.svg     la griglia con le rotte tratteggiate dietro alcune sezioni (carta-giro.svg: alta quanto il giro)
   schermate/     le schermate dell'app in inglese, JPEG a 1x e 2x
   icona-*.png    l'icona dell'app
+CNAME            il dominio servito da Pages: www.chiefpilot.app
+.nojekyll        dice a GitHub Pages di servire i file così come sono
+```
+
+Sul Mac, nella stessa cartella ma fuori dal repo pubblico (in `.gitignore`), resta il materiale di lavoro:
+
+```
 tools/
   disegni.py     rigenera disegni e mappa, e rimette le scie in index.html
   storie.py      rimette in index.html le storie d'esempio generate dall'app
   schermate.sh   una schermata PNG dell'app → JPEG 1x e 2x con sips
 docs/            il progetto della pagina
-CNAME            il dominio servito da Pages: www.chiefpilot.app
-.nojekyll        dice a GitHub Pages di servire i file così come sono
+.agents/         posizionamento e lingua del pubblico
 .claude/         skill accese solo qui: taste-skill, marketing-skills, ui-ux-pro-max
 ```
+
+La storia completa del lavoro (con questi file) è nel ramo locale `storia-locale`, mai spinto: il repo pubblico parte da un commit nuovo con il solo sito.
 
 ### La pagina, sezione per sezione
 
@@ -68,27 +76,22 @@ L'invito è uno solo, ripetuto: **«Tell me when it lands»**, che apre una mail
 
 Tutto il testo che si legge sta nell'HTML in inglese, compreso quello che lo script anima (le parole del tabellone, le storie, le righe della ricevuta, le celle dell'hangar stanno in elementi nascosti). Per le altre lingue basta il meccanismo di Bottlegram: `lingua.js` cammina sui nodi di testo e usa l'inglese come chiave di `lingue.js`. Non è costruito: si fa quando si traduce. Va caricato **prima** di `app.js`, perché `app.js` legge le parole dal DOM all'avvio.
 
-## Da fare prima di pubblicare
+## Da tenere d'occhio
 
 1. **Le schermate** vengono dalla figlia «Sito: schermate in inglese» (`Contrail/docs/sito/schermate-en/`, `elenco.md`), carriere demo fatte dal motore. Per rifarne una: `tools/schermate.sh <png> <nome>` coi nomi `dashboard`, `dispatch`, `dispatch-detail`, `flight-ready`, `current-flight`, `logbook`, `finances`, `bases` (dalla versione alta), `territory` (il foglio del territorio), `airline` (dalla versione alta). I tre ritagli delle Missioni (`.crop`, variabili nell'HTML: `--a` rapporto del riquadro, `--w` larghezza dell'immagine in % del riquadro, `--l` e `--t` spostamenti in % di larghezza e altezza del riquadro; si calcolano dalla regione x0 y0 x1 y1 della schermata a 1x) vanno rimessi se cambia l'inquadratura.
 2. **L'indirizzo `chiefpilot@bulbmode.com`**: è sul modello di Bottlegram, ma va creato o confermato. Compare in tutte e tre le pagine.
 3. **La lettera di Francesco** («Com'è nata») è scritta in prima persona: la deve approvare lui.
 4. I numeri d'esempio (la ricevuta del volo Francoforte–Monaco, la missione SRV214, i quattro biglietti) sono illustrazioni, segnate come tali dove serve; gradi, percentuali, 28.388 aeroporti e 3.000 frasi sono veri.
 
-## Pubblicare (alla fine, col sì di Francesco)
+## Pubblicazione (31/10/2026)
 
-Prima, una volta sola: verificare il dominio su GitHub (foto profilo → **Settings → Pages → Add a domain** → `chiefpilot.app`, il record **TXT** nel DNS, poi **Verify**). Non mettere ancora i record `A` e `CNAME`.
+- Repo pubblico `chiotas/chiefpilot-sito`; GitHub Pages dal ramo `main`, cartella `/`, dominio personalizzato `www.chiefpilot.app` (anche nel file `CNAME`).
+- DNS su Namecheap (Advanced DNS di `chiefpilot.app`): quattro record `A` su `@` (`185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`) e `CNAME` di `www` → `chiotas.github.io`. Tolti il parcheggio di `www` e il redirect di Namecheap su `@`. Il TXT SPF dell'inoltro mail di Namecheap è rimasto com'era. Niente `AAAA`: si possono aggiungere (`2606:50c0:8000::153` … `8003::153`).
+- HTTPS: certificato Let's Encrypt emesso da GitHub per `www.chiefpilot.app` e `chiefpilot.app` (scade il 29/01/2027, GitHub lo rinnova da solo), **Enforce HTTPS** acceso (i domini `.app` si aprono solo in HTTPS). Il certificato è partito solo dopo aver tolto e rimesso il dominio personalizzato: GitHub ha aggiunto due commit sul file `CNAME`.
+- Ancora da fare, facoltativo: verificare il dominio su GitHub (foto profilo → Settings → Pages → Add a domain, un record TXT su Namecheap), così nessun altro repo può usare `chiefpilot.app`.
+- Controllato il 31/10: `https://www.chiefpilot.app` dà `200` da `GitHub.com`; `https://chiefpilot.app`, `http://chiefpilot.app` e `http://www.chiefpilot.app` portano con `301` a `https://www.chiefpilot.app/`; `support.html` e `privacy.html` danno `200`; la pagina pubblicata a 1440 è uguale a quella locale, senza errori.
 
-1. Repo: `gh repo create chiotas/chiefpilot-sito --public --source . --push`.
-2. Sul repo: **Settings → Pages → Source: Deploy from a branch**, ramo `main`, cartella `/ (root)`.
-3. DNS nel pannello del dominio:
-   - `CNAME` di `www` → `chiotas.github.io`
-   - quattro record `A` per il dominio nudo (`@`): `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`
-   - se si vuole anche IPv6, quattro `AAAA`: `2606:50c0:8000::153`, `2606:50c0:8001::153`, `2606:50c0:8002::153`, `2606:50c0:8003::153`
-4. **Settings → Pages → Custom domain**: `www.chiefpilot.app`, poi **Enforce HTTPS** quando il certificato è pronto (i domini `.app` funzionano solo in HTTPS).
-5. Controllo: `curl -sI https://www.chiefpilot.app` deve dare `200` con `server: GitHub.com`, e `https://chiefpilot.app` deve portare al `www`.
-
-Pages ripubblica da solo a ogni push.
+Pages ripubblica da solo a ogni push su `main`.
 
 ## Controlli fatti (30–31/10)
 
