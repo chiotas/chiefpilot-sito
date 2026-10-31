@@ -17,7 +17,7 @@ app.js           tabellone che gira, scie, il giro, ricevuta, hangar, compagnia,
 assets/
   disegni/       spallina, cinque aerei, terminal ai livelli 1–3 (generati, vedi tools/)
   mappa.svg      terre, coste e luci degli aeroporti (Natural Earth)
-  carta*.svg     la griglia con le rotte tratteggiate dietro alcune sezioni (carta-giro.svg: alta quanto il giro)
+  carta*.svg     la griglia con le rotte tratteggiate dietro alcune sezioni (carta-giro.svg: alta quanto il giro; carta-foglio.svg: per il riquadro dell'apertura)
   schermate/     le schermate dell'app in inglese, JPEG a 1x e 2x
   icona-*.png    l'icona dell'app
 CNAME            il dominio servito da Pages: www.chiefpilot.app
@@ -40,7 +40,7 @@ La storia completa del lavoro (con questi file) è nel ramo locale `storia-local
 
 ### La pagina, sezione per sezione
 
-1. **Apertura** «Fly the plane. Run the airline.»: marchio piccolo sopra il titolo, che resta la cosa più grande del foglio. A destra il tabellone Solari: in cima CHIEF PILOT in tessere gialle (più grandi, `--nk` in `styles.css`, sempre nella larghezza del tabellone), sotto DEPARTURES e le partenze, senza orologio; sopra la mappa notturna dell'Europa con tre catene di scie in tre direzioni, che non si incrociano e partono a circa due secondi l'una dall'altra: da Stornoway verso est (quella di stasera, prima tratta per Sumburgh, la prima riga del tabellone), da Londra verso nord fino ad Aberdeen, da Copenaghen giù a tappe fino ad Atene. Linea, alone, scali e base della stessa misura del logbook sullo schermo; la vista è quella di sempre (`viewBox` 1250 130 920 1080) e dopo Berlino la catena per Atene passa sotto il tabellone. Ogni catena va in ordine di volo (`CATENE_APERTURA` in `tools/disegni.py`, un orologio per catena in `app.js`).
+1. **Apertura** «Fly the plane. Run the airline.»: marchio piccolo sopra il titolo, che resta la cosa più grande del foglio; dietro, la carta del giro coi colori del riquadro (`assets/carta-foglio.svg`). A destra il tabellone Solari: in cima CHIEF PILOT in tessere gialle (più grandi, `--nk` in `styles.css`, sempre nella larghezza del tabellone), sotto DEPARTURES e le partenze, senza orologio; sopra la mappa notturna dell'Europa con tre catene di scie in tre direzioni, che non si incrociano e partono a circa due secondi l'una dall'altra: da Stornoway verso est (quella di stasera, prima tratta per Sumburgh, la prima riga del tabellone), da Londra verso nord fino ad Aberdeen, da Copenaghen giù a tappe fino ad Atene. Linea, alone, scali e base della stessa misura del logbook sullo schermo; la vista è quella di sempre (`viewBox` 1250 130 920 1080) e dopo Berlino la catena per Atene passa sotto il tabellone. Ogni catena va in ordine di volo (`CATENE_APERTURA` in `tools/disegni.py`, un orologio per catena in `app.js`).
 2. **L'idea**: lo stesso sim, lo stesso planner, e in più una compagnia. Dashboard in cornice di Mac.
 3. **Il giro** «Just one more flight.»: quattro passi, con la griglia e le rotte di `assets/carta-giro.svg` fino a «Land, and get paid»; la missione a destra cambia stato mentre si scorre (aperta, piano trovato, in volo, atterrata). Sotto, due cornici: il volo pronto col piano dal planner e il volo in corso.
 4. **Missioni** sul giallo della legenda del tabellone: titolo in alto, poi tre righe alternate, ritaglio da una parte e testo dall'altra (dove sei e cosa voli, i tipi di lavoro, gli stili di carriera). Ogni ritaglio è un pannello intero della schermata, senza parole tagliate. Dispatch in cornice.

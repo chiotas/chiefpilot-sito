@@ -167,7 +167,8 @@ strong { font-weight: 650; color: var(--ink-hi); }
   height: calc(100svh - 64px); min-height: 640px; max-height: 1000px;
 }
 .hero-sheet {
-  background: var(--surface); border-radius: var(--r);
+  /* La carta di «Just one more flight», con i colori spostati sul riquadro (carta-foglio.svg): griglia, archi e puntini. */
+  background: url(assets/carta-foglio.svg) center / cover no-repeat, var(--surface); border-radius: var(--r);
   display: flex; flex-direction: column; justify-content: center;
   padding: 48px clamp(28px, 5vw, 80px) 12%;
 }
