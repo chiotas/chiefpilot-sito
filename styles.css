@@ -811,6 +811,7 @@ strong { font-weight: 650; color: var(--ink-hi); }
 
 /* MARK: Telefono */
 @media (max-width: 760px) {
+  .hero-sheet { background-size: 1100px auto; background-position: center -58px; } /* l'arco alto sopra il marchio, quello basso nell'angolo */
   .pass-key-small { --stub: 25px; --h: 36px; --nr: 4px; }
   .pass-key-small .pass-key-stub svg { width: 12px; height: 12px; }
   .pass-key-small .pass-key-text { padding: 0 9px 0 8px; font-size: 12px; font-weight: 650; font-stretch: 100%; letter-spacing: 0; text-transform: none; }
