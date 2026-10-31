@@ -142,7 +142,10 @@ strong { font-weight: 650; color: var(--ink-hi); }
   height: 64px; padding: 0 var(--m);
   background: var(--bg);
 }
-.wordmark { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; }
+.wordmark { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; text-decoration: none; }
+.bar > .pass-key { grid-column: 3; justify-self: end; } /* a destra anche quando i link della barra spariscono */
+.pass-key-small { position: relative; }
+.pass-key-small::after { content: ""; position: absolute; inset: -4px 0; } /* 44 px al tocco senza ingrandire il tagliando */
 .wordmark span { font-stretch: 150%; font-weight: 650; font-size: 19px; letter-spacing: -0.01em; color: var(--ink-hi); }
 .bar-links { display: flex; justify-content: center; gap: 28px; }
 .bar-links a { text-decoration: none; font-size: var(--t5); color: var(--soft); transition: color .15s; }
@@ -456,16 +459,14 @@ strong { font-weight: 650; color: var(--ink-hi); }
 .logbook { padding: var(--gap-section) 0 0; }
 .logbook h2 { font-size: var(--t1); padding: 0 var(--m); max-width: 11em; }
 .logbook-map { margin-top: clamp(48px, 5vw, 80px); height: min(78vh, 860px); background: var(--bg); }
-/* Dal tablet in su il titolo sta dentro la mappa, in basso a sinistra sull'Atlantico. Un'ombra scura e morbida lo
-   stacca dalle scie; sul telefono la mappa mostra solo l'Europa e il titolo resta sopra. */
-@media (min-width: 761px) {
-  .logbook { display: grid; }
-  .logbook h2 {
-    grid-area: 1 / 1; z-index: 1; align-self: end; max-width: 8.2em; margin-bottom: clamp(36px, 4.5vw, 64px); pointer-events: none;
-    text-shadow: 0 0 14px rgba(6, 20, 27, .75), 0 0 3px rgba(6, 20, 27, .8);
-  }
-  .logbook-map { grid-area: 1 / 1; margin-top: 0; }
+/* Il titolo sta dentro la mappa, in basso a sinistra (sull'Atlantico dal tablet in su, sulla Spagna sul telefono).
+   Un'ombra scura e morbida lo stacca dalle scie. */
+.logbook { display: grid; }
+.logbook h2 {
+  grid-area: 1 / 1; z-index: 1; align-self: end; max-width: 8.2em; margin-bottom: clamp(36px, 4.5vw, 64px); pointer-events: none;
+  text-shadow: 0 0 14px rgba(6, 20, 27, .75), 0 0 3px rgba(6, 20, 27, .8);
 }
+.logbook-map { grid-area: 1 / 1; margin-top: 0; }
 .logbook-text {
   display: grid; grid-template-columns: 5fr 7fr; gap: clamp(40px, 6vw, 110px); align-items: start;
   padding: clamp(64px, 7vw, 110px) var(--m) 0;
@@ -485,7 +486,7 @@ strong { font-weight: 650; color: var(--ink-hi); }
 .plate img.swap { opacity: 0; transform: translateX(-18px); }
 .hangar-text { display: flex; flex-direction: column; justify-content: space-between; gap: 40px; padding: 56px var(--m) 40px 24px; }
 .tabs { display: flex; flex-wrap: wrap; gap: 6px 22px; }
-.tabs button { background: none; border: 0; padding: 0; min-height: 44px; font: 600 var(--t4)/1.3 var(--f); color: var(--muted); cursor: pointer; transition: color .15s; }
+.tabs button { background: none; border: 0; padding: 0; min-height: 44px; min-width: 44px; font: 600 var(--t4)/1.3 var(--f); color: var(--muted); cursor: pointer; transition: color .15s; }
 .tabs button:hover { color: var(--ink); }
 .tabs button[aria-selected="true"] { color: var(--ink-hi); text-decoration: underline; text-decoration-color: var(--accent); text-decoration-thickness: 2px; text-underline-offset: 8px; }
 .hangar-copy h2 { font-size: var(--t2); max-width: 12em; }
@@ -645,8 +646,10 @@ strong { font-weight: 650; color: var(--ink-hi); }
   .tk-line { grid-template-columns: 1fr 31%; --cut: 69%; }
   .tk-line .tk-k { letter-spacing: .08em; white-space: nowrap; }
   .tk-boarded { width: 66px; right: 2%; bottom: 7%; }
-  .tk-visa-1 { width: 62px; right: 25%; top: 9%; }
-  .tk-visa-2 { width: 76px; right: 3%; top: 66%; }
+  .tk-charter .tk-stub { translate: 2px 6px; } /* il tagliando resta dentro lo schermo */
+  /* I visti sulle tappe fatte, nello spazio fra la tratta e la data: le tappe ancora aperte restano leggibili. */
+  .tk-visa-1 { width: 62px; right: 30%; top: 19%; }
+  .tk-visa-2 { width: 76px; right: 26%; top: 38%; }
 }
 
 .airline-text { padding: clamp(72px, 8vw, 120px) clamp(24px, 6vw, 110px) 120px clamp(24px, 4vw, 72px); }
@@ -779,7 +782,12 @@ strong { font-weight: 650; color: var(--ink-hi); }
   .bar { grid-template-columns: auto 1fr auto; }
   .hero { grid-template-columns: 1fr; height: auto; max-height: none; }
   .hero-sheet { padding: 72px clamp(24px, 6vw, 64px) 64px; }
+  .hero h1 { font-size: clamp(34px, 7vw, 66px); }
   .hero-stage { height: 72svh; min-height: 520px; }
+  .picker button { flex: 1 1 0; min-width: 0; }
+  .plate { aspect-ratio: 3 / 2; }
+  .receipt-in { padding-left: var(--m); padding-right: var(--m); }
+  .foot nav a, .intro .text-link { display: inline-block; padding: 11px 0; } /* 44 px al tocco */
   .intro { grid-template-columns: 1fr; padding-left: var(--m); }
   .intro-text { max-width: 40em; }
   .loop { grid-template-columns: 1fr 1fr; gap: 32px; }
@@ -827,15 +835,16 @@ strong { font-weight: 650; color: var(--ink-hi); }
   .bar { height: 58px; gap: 12px; }
   .wordmark span { font-size: 17px; }
   .hero { padding: 0 8px 8px; gap: 8px; }
-  .hero-sheet { padding: 56px 20px 48px; }
-  .hero h1 { font-size: 8.8vw; }
-  .hero-stage { height: 64svh; min-height: 480px; }
-  .board { width: 96cqi; --cw: calc((96cqi - 44px) / 24); bottom: 76px; }
+  .hero-sheet { padding: 44px 20px 44px; }
+  .hero h1 { font-size: 10.6vw; } /* «Run the airline.» ≈ 7,6 em: sta nella riga anche a 360 */
+  .hero-stage { height: 74svh; min-height: 600px; } /* sopra il tabellone resta una striscia di mappa che mostra le scie */
+  /* Sul telefono il tabellone prende tutta la larghezza e poggia sulla striscia: niente fessure di mappa ai lati. */
+  .board { width: 100cqi; --cw: calc((100cqi - 44px) / 24); bottom: 68px; border-radius: 14px 14px 0 0; }
   .board-name { --nk: 2.05; gap: 2px; }
   .board-rows li > .flaps:nth-child(2) { display: none; }
   .board-rows li { grid-template-columns: auto 1fr auto; }
   .row-note { grid-column: 2 / -1; }
-  .hero-strip { height: auto; flex-direction: column; align-items: flex-start; gap: 2px; padding: 12px 16px; font-size: 14px; }
+  .hero-strip { height: 68px; flex-direction: column; justify-content: center; align-items: flex-start; gap: 2px; padding: 0 16px; font-size: 14px; }
   .loop { display: flex; flex-direction: column; }
   .loop-text { display: contents; }
   .loop-text > h2 { order: 0; }
@@ -846,7 +855,7 @@ strong { font-weight: 650; color: var(--ink-hi); }
   .mission-panel { min-height: 0; margin-top: 12px; }
   .drill { display: none; }
   .loop-steps li { min-height: 60svh; padding-left: 44px; }
-  .loop-say { font-size: 22px; }
+  .loop-say { font-size: 26px; }
   .loop-say::before { left: -42px; width: 16px; height: 16px; }
   .loop-steps::before { left: 7px; }
   .loop-steps li p:not(.loop-say) { font-size: var(--t4); }
@@ -862,15 +871,28 @@ strong { font-weight: 650; color: var(--ink-hi); }
   .missions-mac { padding: 0; }
   .split-head { font-size: 9.4vw; }
   .paper { padding: 26px 18px 40px; font-size: 13px; }
-  .logbook-map { height: 56svh; }
+  .logbook-map { height: 60svh; }
+  .logbook h2 { margin-bottom: 28px; }
   .plate { margin: 16px; }
   .cells { grid-template-columns: 1fr; }
   .hangar-mac { padding: 40px var(--m) 72px; }
-  .levels { grid-template-columns: 1fr; }
+  /* I tre livelli: il disegno a sinistra e la riga a destra, così stanno tutti e tre in uno schermo. */
+  .levels { grid-template-columns: 1fr; gap: 10px; }
+  .levels li { display: grid; grid-template-columns: 44% 1fr; align-items: center; gap: 6px; padding: 6px 16px 6px 6px; }
+  .levels p { padding: 0; font-size: 16px; line-height: 1.45; }
+  .levels strong { font-size: 20px; }
   .route-line { grid-template-columns: 1fr; gap: 24px; }
+  .platforms { display: grid; grid-template-columns: auto auto; justify-content: start; gap: 0 .45em; }
+  .swatches { display: grid; grid-template-columns: repeat(7, minmax(0, 44px)); gap: 8px; }
+  .swatches button { width: 100%; height: auto; aspect-ratio: 1; }
   .faq-text { columns: 1; }
   .close { padding: 104px var(--m) 72px; }
-  .foot-line { grid-template-columns: 1fr; gap: 8px; }
+  .foot-line { grid-template-columns: 1fr; gap: 0; }
+  /* Sul telefono la schermata è la sola finestra dell'app, senza il MacBook intorno: un po' più grande, più pulita. */
+  .mac-screen { padding: 0; background: none; border: 1px solid #22394A; border-radius: 10px; overflow: hidden; }
+  .mac-screen::before, .mac-base { display: none; }
+  .mac-screen img { border-radius: 0; }
+  .mac figcaption { margin-top: 14px; }
   .foot-line p:last-child { text-align: left; }
 }
 
