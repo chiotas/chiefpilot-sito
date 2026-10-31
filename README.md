@@ -46,7 +46,7 @@ La storia completa del lavoro (con questi file) è nel ramo locale `storia-local
 4. **Missioni** sul giallo della legenda del tabellone: titolo in alto, poi tre righe alternate, ritaglio da una parte e testo dall'altra (dove sei e cosa voli, i tipi di lavoro, gli stili di carriera). Ogni ritaglio è un pannello intero della schermata, senza parole tagliate. Dispatch in cornice.
 4 bis. **Le storie** «Every mission comes with a story.» (richiesta di Francesco: «il nostro tocco di poesia»): si sceglie un aereo fra i modellini dell'app (leggero, turboelica, business jet, corto e lungo raggio, rare) e si legge una storia vera generata dall'app, con titolo, tratta, tipo di lavoro, aereo e la riga del meteo. La storia è una nota lasciata in sala equipaggi: carta col nastro adesivo, il testo fra virgolette “ ” (le mette `styles.css`) e la firma «Dispatch, Sirio Virtual»; «Another story» passa alla successiva. 30 storie da `Contrail/docs/sito/storie-esempio-en.md`, coi nomi delle città da Wikidata, messe nell'HTML da `tools/storie.py` (la prima si vede anche senza JavaScript). Kodiak, Twin Otter e PC-12 l'app li disegna come il Cessna: stanno sotto «Light aircraft», e ogni storia dice il suo aereo. La compagnia di prova delle storie (Frank Air, FRK) diventa quella d'esempio della pagina (Sirio Virtual, SRV).
 5. **La ricevuta**: si sceglie com'è andato l'atterraggio e l'arrivo, e lo scontrino si ricalcola con le regole dell'app (Butter +10 %, Firm +5 %, Hard −5 %, in orario +5 %, in ritardo −10 %).
-6. **Logbook**: la mappa grande con le scie che si accendono e, dal tablet in su, il titolo dentro la mappa in basso a sinistra sull'Atlantico (sul telefono il titolo resta sopra la mappa); i numeri, le esportazioni. Logbook in cornice.
+6. **Logbook**: la mappa grande con le scie che si accendono e il titolo dentro la mappa in basso a sinistra (sull'Atlantico dal tablet in su, sulla Spagna sul telefono); i numeri, le esportazioni. Logbook in cornice.
 7. **Hangar e soldi**: i modellini dell'app nelle cinque famiglie, compra o leasing. Finances in cornice (scenario mid: niente cifre del 787 in vista, richiesta del master).
 8. **Territorio**: il terminal ai livelli 1, 2, 3 con l'area d'influenza; poi due righe alternate. Your bases a destra con cosa si costruisce (ogni struttura mette il suo lavoro in bacheca e paga di più nella sua area; tornare a una base non costa). Il territorio a sinistra: 15 aree, quella dell'hub è compresa, le altre si comprano con un hub e un terminal di livello 1 regalati; basi, tour e contratti regionali solo nelle tue aree, rare più frequenti (`CareerStore+Shop.swift`, `MissionGenerator.swift`).
 9. **La compagnia**: nome, codice e livrea vanno su tutti i biglietti; lo stile cambia il biglietto (restano per la visita dopo). Quattro biglietti disegnati in CSS e SVG: **linea** prima classe blu notte e oro con codice a barre; **charter e isole** l'hopper Stornoway–Benbecula su carta consumata, piegato, con l'anello del caffè, il timbro BOARDED e il tagliando strappato; **tour** a tappe verso Nuuk, con le tappe fatte forate e timbrate; **aeroclub** la pagina del libretto del socio con le firme dell'istruttore. Inchiostro dei timbri: il filtro SVG `#ink`. La livrea stampata su carta chiara è scurita (`--ink-livery`). Sede e più compagnie.
@@ -57,6 +57,20 @@ La storia completa del lavoro (con questi file) è nel ramo locale `storia-local
 14. **Chiusura** «Where are you flying tonight?» e il piede con la nota sui marchi.
 
 L'invito è uno solo, ripetuto: **«Tell me when it lands»**, che apre una mail con l'oggetto già scritto. Il tasto è il tagliando di una carta d'imbarco (scelto da Francesco fra tre prove il 31/10): carta con una grana leggera, intagli a semicerchio sulla linea di strappo, il tagliando con l'aereo al centro, la scritta in maiuscolo spaziato; al passaggio il tagliando si stacca (fermo con `prefers-reduced-motion`). Classi `.pass-key`, `.pass-key-small` per la barra; su support e privacy lo stesso tagliando dice «Write to us».
+
+### Telefono e tablet (31/10)
+
+Stesse sezioni e stesso ordine del desktop, ripensate per lo schermo (`styles.css`, blocchi `max-width: 1100px` e `760px`; il desktop non cambia, controllato a 1440 e 1728 confrontando le posizioni di tutti gli elementi con la pagina pubblicata):
+
+- **Apertura**: titolo a 10,6vw sul telefono (7vw sul tablet), sempre la cosa più grande; marchio piccolo sopra. Il tabellone prende tutta la larghezza del riquadro e poggia sulla striscia; sopra resta una fascia di mappa (74svh, almeno 600 px) dove si vedono le scie.
+- **Barra**: il tagliando sta a destra anche sul tablet; marchio e tagliando hanno 44 px al tocco (il tagliando con un `::after` invisibile).
+- **Schermate**: sul telefono solo la finestra dell'app, con un filo e gli angoli tondi, senza MacBook; dal tablet in su il MacBook col notch.
+- **Il giro**: la missione resta ferma in alto mentre i passi (26 px) scorrono sulla griglia con le rotte.
+- **Livelli del terminal**: righe col disegno a sinistra e la riga a destra, tutti e tre in uno schermo.
+- **Biglietti**: sotto 440 px di contenitore il tagliando del charter resta nello schermo e i visti del tour stanno sulle tappe fatte, fra tratta e data.
+- **Piattaforme** in due righe (PS5 Xbox / PC Mac), i sette colori della livrea in una riga, l'aereo dell'hangar in 3:2, i passi «Works with every version» col pallino accanto.
+- **Tablet**: le sei storie in una riga, la ricevuta allineata al titolo; link del piede e «See how one evening goes» con 44 px al tocco.
+- Niente scroll orizzontale a 360, 390, 430 e 768.
 
 ### Allineato all'app
 
