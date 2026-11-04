@@ -199,7 +199,8 @@
   let mine = {};
   try { mine = JSON.parse(localStorage.getItem(KEEP)) || {}; } catch { /* navigazione privata */ }
   const save = () => { try { localStorage.setItem(KEEP, JSON.stringify(mine)); } catch { /* niente */ } };
-  // Un biglietto per stile (linea, charter, tour, aeroclub): tutti portano nome, codice e livrea della compagnia.
+  // Il biglietto dipende da cosa trasporta il volo, mai dallo stile (TicketFacts.document nell'app, feedback 72):
+  // linea in economica o in prima, hopper, tappe, libretto. Tutti portano nome, codice e livrea della compagnia.
   const pass = document.querySelector('.tickets');
   const nameIn = document.getElementById('in-name'), codeIn = document.getElementById('in-code');
   const outNames = [...document.querySelectorAll('[data-out="name"]')], outCodes = [...document.querySelectorAll('[data-out="code"]')];
@@ -234,18 +235,26 @@
     const sw = radios(document.querySelector('.swatches'), (b) => {
       pass.style.setProperty('--livery', b.dataset.c); mine.livery = b.dataset.c; save();
     });
-    const st = radios(document.querySelector('.segments'), (b, quiet) => {
+    // Lo stile decide solo la bacheca: sul biglietto non cambia niente.
+    const st = radios(document.querySelector('.segments:not(.loads)'), (b) => { mine.style = b.textContent; save(); });
+    const ld = radios(document.querySelector('.loads'), (b, quiet) => {
+      const doc = b.dataset.doc;
       tickets.forEach((t) => {
-        const on = t.dataset.ticket === b.dataset.style;
+        const on = t.dataset.ticket.split(' ').includes(doc);
         if (on && t.hidden && !still && !quiet) { t.classList.remove('ticket-in'); void t.offsetWidth; t.classList.add('ticket-in'); }
         t.hidden = !on;
+        if (on && t.classList.contains('tk-line')) {
+          t.classList.toggle('tk-eco', doc === 'line');
+          t.querySelectorAll('[data-class]').forEach((s) => { s.hidden = s.dataset.class !== doc; });
+        }
       });
-      mine.style = b.textContent; save();
+      mine.load = doc; save();
     });
     if (mine.name) { nameIn.value = mine.name; setName(mine.name); }
     if (mine.code) { codeIn.value = mine.code; setCode(mine.code); }
     const lv = sw.items.find((b) => b.dataset.c === mine.livery); if (lv) sw.choose(lv);
     const sy = st.items.find((b) => b.textContent === mine.style); if (sy) st.choose(sy, true);
+    const lo = ld.items.find((b) => b.dataset.doc === mine.load); if (lo) ld.choose(lo, true);
   }
 
   /* MARK: Le entrate: titolo, poi testo, poi figura, sfalsati, una volta sola */

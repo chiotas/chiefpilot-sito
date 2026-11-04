@@ -534,9 +534,9 @@
     </svg>
     <div class="tickets" data-ui style="--livery:#4F7BFF">
       <!-- Linea: il biglietto di prima classe, blu notte e oro -->
-      <article class="ticket tk-line" data-ticket="line">
+      <article class="ticket tk-line" data-ticket="line first">
         <div class="tk-main">
-          <p class="tk-head"><span class="tk-seal" data-out="code">SRV</span><span class="tk-airline" data-out="name">Sirio Virtual</span><span class="tk-class">First</span></p>
+          <p class="tk-head"><span class="tk-seal" data-out="code">SRV</span><span class="tk-airline" data-out="name">Sirio Virtual</span><span class="tk-class"><span data-class="first">First</span><span data-class="line" hidden>Economy</span></span></p>
           <p class="tk-route"><span>LPPT</span><svg class="tk-plane" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15.5v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V8.5l-8 5v2l8-2.5V18l-2 1.5V21l3.5-1 3.5 1v-1.5L13 18v-5z" transform="rotate(90 12 12)"/></svg><span>LIRF</span></p>
           <p class="tk-places"><span>Lisbon</span><span>Rome Fiumicino</span></p>
           <dl class="tk-data">
@@ -553,7 +553,7 @@
         </div>
       </article>
       <!-- Charter e isole: il biglietto di un hopper, piegato, timbrato, con l'anello del caffè -->
-      <article class="ticket tk-charter" data-ticket="charter" hidden>
+      <article class="ticket tk-charter" data-ticket="hopper" hidden>
         <div class="tk-main">
           <p class="tk-printed" data-out="name">Sirio Virtual</p>
           <p class="tk-sub">Island service · Keep this ticket</p>
@@ -637,6 +637,17 @@
         <button type="button" role="radio" aria-checked="true" data-style="line">Scheduled airline</button>
         <button type="button" role="radio" aria-checked="false" data-style="charter">Charter &amp; islands</button>
         <button type="button" role="radio" aria-checked="false" data-style="club">Flying club</button>
+      </div>
+    </div>
+    <div class="ablock">
+      <p class="ablock-say">Load it.</p>
+      <p>Each flight gets the papers for what it carries, whatever your style. Cargo goes on an air waybill. Medevac, ferry, state and aerial-work flights have documents of their own.</p>
+      <div class="segments loads" role="radiogroup" aria-label="What the flight carries">
+        <button type="button" role="radio" aria-checked="false" data-doc="line">Scheduled passengers</button>
+        <button type="button" role="radio" aria-checked="true" data-doc="first">Charters and air taxis</button>
+        <button type="button" role="radio" aria-checked="false" data-doc="hopper">Islands and weekends</button>
+        <button type="button" role="radio" aria-checked="false" data-doc="tour">Tour legs</button>
+        <button type="button" role="radio" aria-checked="false" data-doc="club">Lessons and scenic flights</button>
       </div>
     </div>
     <div class="ablock">
